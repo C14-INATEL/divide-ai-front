@@ -7,7 +7,4 @@ export type ExpenseCategory =
   | "SERVICES"
   | "OTHER";
 
-export type ExpenseSplitType =
-  | "EQUAL"
-  | "PERCENTAGE"
-  | "EXACT";
+export type ExpenseSplitType = "EQUAL" | "PERCENTAGE" | "EXACT";

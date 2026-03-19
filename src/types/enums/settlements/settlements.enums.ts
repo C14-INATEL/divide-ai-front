@@ -1,4 +1,1 @@
-export type SettlementStatus =
-  | "PENDING"
-  | "PAID"
-  | "CANCELLED";
+export type SettlementStatus = "PENDING" | "PAID" | "CANCELLED";
