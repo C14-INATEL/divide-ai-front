@@ -1,18 +1,7 @@
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-
-const Home = () => {
+export function Home() {
     return (
-        <div className="h-screen flex flex-col">
-            <Navbar />
-            {/* Content */}
-            <div className="flex-1 overflow-y-auto">
-                <div className="min-h-full -mt-4 md:mt-0">
-                    Hello World!
-                </div>
-                <Footer />
-            </div>
+        <div className="px-6 py-6">
+            <h1 className="text-2xl font-bold text-base-content">Dashboard</h1>
         </div>
     );
-};
-export default Home;
+}
