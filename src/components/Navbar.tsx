@@ -1,7 +1,7 @@
 import { Bell, Menu } from "lucide-react";
-import ThemeSwapper from "./ThemeSwapper";
+import { ThemeSwapper } from "./theme-swapper";
 
-const Navbar = () => {
+export function Navbar() {
     return (
         <div className="navbar bg-base-200 shadow-sm">
             <div className="navbar-start">
@@ -45,5 +45,4 @@ const Navbar = () => {
             </div>
         </div>
     );
-};
-export default Navbar;
+}
