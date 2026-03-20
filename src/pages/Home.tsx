@@ -10,9 +10,9 @@ export function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-base-200 p-4">
+    <div className="p-4">
     {/*Banner*/}
-      <div className="hero bg-base-100 rounded-box shadow-sm mb-8 p-6 max-w-4xl mx-auto">
+      <div className="hero bg-base-100 rounded-box mb-8 p-6 max-w-4xl mx-auto">
         <div className="hero-content text-center">
           <div className="max-w-md">
             <h1 className="text-4xl font-bold">Divide Ai</h1>
