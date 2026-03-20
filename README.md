@@ -11,16 +11,19 @@ git clone https://github.com/C14-INATEL/divide-ai-front
 ```
 
 ### 2. Entrar na pasta do projeto
+
 ```bash
 cd divide-ai-front
 ```
 
 ### 3. Instalar as dependências
+
 ```bash
 npm install
 ```
 
 ### 4. Rodar o servidor de desenvolvimento
+
 ```bash
 npm run dev
 ```
