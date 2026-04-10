@@ -5,7 +5,7 @@ import { routes } from "./routes";
 import { AuthenticatedGuard } from "./guards/authenticated-guard";
 import { PublicOnlyGuard } from "./guards/public-only-guard";
 import { AuthenticatedLayout } from "../components/layouts/authenticated-layout";
-import { Home } from "../pages/home";
+import { Home } from "../pages/Home";
 import { Groups } from "../pages/groups";
 import { Expenses } from "../pages/expenses";
 import { Settlements } from "../pages/settlements";
