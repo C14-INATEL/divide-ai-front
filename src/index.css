@@ -41,3 +41,58 @@
     @apply bg-base-200/60 backdrop-blur;
   }
 }
+
+@keyframes auth-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes auth-scan {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+@keyframes auth-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-auth-fade-up {
+  animation: auth-fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-auth-scan {
+  animation: auth-scan 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-auth-pulse {
+  animation: auth-pulse 3s ease-in-out infinite;
+}
+
+.auth-delay-100 {
+  animation-delay: 0.1s;
+}
+.auth-delay-200 {
+  animation-delay: 0.2s;
+}
+.auth-delay-300 {
+  animation-delay: 0.3s;
+}
+.auth-delay-400 {
+  animation-delay: 0.4s;
+}
