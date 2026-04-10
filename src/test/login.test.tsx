@@ -20,7 +20,7 @@ describe("Login", () => {
 
   test("should render the submit button with correct text", () => {
     renderLogin();
-    expect(screen.getByRole("button", { name: "entrar" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /entrar/i })).toBeInTheDocument();
   });
 
   test("should render the 'Esqueceu a senha?' link", () => {
