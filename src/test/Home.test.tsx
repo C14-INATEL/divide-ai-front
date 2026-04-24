@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import { Home } from '../pages/Home';
+import { Home } from '../pages/home';
 
 describe('Home Component', () => {
   it('should render the main application title', () => {
