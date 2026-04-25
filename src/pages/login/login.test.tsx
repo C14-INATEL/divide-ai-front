@@ -5,7 +5,7 @@ import { beforeEach, vi } from "vitest";
 import { Login } from ".";
 import { login } from "../../services/auth.service";
 
-vi.mock("../services/auth.service", () => ({
+vi.mock("../../services/auth.service", () => ({
   login: vi.fn(),
 }));
 
