@@ -1,35 +1,58 @@
-import { useState } from "react";
-import { Link } from "react-router";
+import { useId, useState } from "react";
+import { Link, useNavigate } from "react-router";
 import { Eye, EyeOff, ArrowRight } from "lucide-react";
+import { login } from "../../services/auth.service.ts";
 
 export function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const emailId = useId();
+  const passwordId = useId();
+  const navigate = useNavigate();
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setErrorMessage(null);
+
+    try {
+      await login({ email, password });
+      navigate("/");
+    } catch {
+      setErrorMessage("Email ou senha inválidos.");
+    }
+  }
 
   return (
-    <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+    <form className="space-y-4" onSubmit={handleSubmit}>
       <fieldset className="fieldset">
-        <label htmlFor="login-email" className="fieldset-label text-xs font-semibold uppercase tracking-wider text-base-content/50">
+        <label htmlFor={emailId} className="fieldset-label text-xs font-semibold uppercase tracking-wider text-base-content/50">
           Email
         </label>
         <input
           type="email"
-          id="login-email"
+          id={emailId}
           placeholder="seu@email.com"
           required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           className="input input-bordered w-full rounded-xl transition-all duration-300 hover:border-base-content/10 focus:input-primary focus:border-primary/50"
         />
       </fieldset>
 
       <fieldset className="fieldset">
-        <label htmlFor="login-pass" className="fieldset-label text-xs font-semibold uppercase tracking-wider text-base-content/50">
+        <label htmlFor={passwordId} className="fieldset-label text-xs font-semibold uppercase tracking-wider text-base-content/50">
           Senha
         </label>
         <div className="relative">
           <input
             type={showPassword ? "text" : "password"}
-            id="login-pass"
+            id={passwordId}
             placeholder="********"
             required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             className="input input-bordered w-full rounded-xl pr-10 transition-all duration-300 hover:border-base-content/10 focus:input-primary focus:border-primary/50"
           />
           <button
@@ -46,6 +69,11 @@ export function Login() {
           </Link>
         </div>
       </fieldset>
+      {errorMessage && (
+        <p role="alert" className="text-sm text-error">
+          {errorMessage}
+        </p>
+      )}
 
       <button
         type="submit"
