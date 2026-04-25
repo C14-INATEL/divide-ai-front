@@ -2,8 +2,8 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes } from "react-router";
 import { beforeEach, vi } from "vitest";
-import { Login } from "../pages/login";
-import { login } from "../services/auth.service";
+import { Login } from ".";
+import { login } from "../../services/auth.service";
 
 vi.mock("../services/auth.service", () => ({
   login: vi.fn(),
@@ -32,7 +32,10 @@ describe("Login", () => {
       loginMock.mockResolvedValueOnce({ token: "token-ok" });
       renderLogin();
 
-      await userEvent.type(screen.getByPlaceholderText("seu@email.com"), "ok@email.com");
+      await userEvent.type(
+        screen.getByPlaceholderText("seu@email.com"),
+        "ok@email.com",
+      );
       await userEvent.type(screen.getByPlaceholderText("********"), "12345678");
       await userEvent.click(screen.getByRole("button", { name: /entrar/i }));
 
@@ -47,8 +50,14 @@ describe("Login", () => {
       loginMock.mockRejectedValueOnce(new Error("invalid"));
       renderLogin();
 
-      await userEvent.type(screen.getByPlaceholderText("seu@email.com"), "erro@email.com");
-      await userEvent.type(screen.getByPlaceholderText("********"), "senhaerrada");
+      await userEvent.type(
+        screen.getByPlaceholderText("seu@email.com"),
+        "erro@email.com",
+      );
+      await userEvent.type(
+        screen.getByPlaceholderText("********"),
+        "senhaerrada",
+      );
       await userEvent.click(screen.getByRole("button", { name: /entrar/i }));
 
       expect(await screen.findByRole("alert")).toHaveTextContent(
