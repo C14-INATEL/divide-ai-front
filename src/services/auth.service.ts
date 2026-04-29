@@ -14,3 +14,17 @@ export async function login(input: LoginInput): Promise<LoginResponse> {
   return data;
 }
 
+export type RegisterInput = {
+  name: string;
+  email: string;
+  password: string;
+};
+
+export type RegisterResponse = {
+  token: string;
+};
+
+export async function register(input: RegisterInput): Promise<RegisterResponse> {
+  const { data } = await http.post<RegisterResponse>("/auth/register", input);
+  return data;
+}
