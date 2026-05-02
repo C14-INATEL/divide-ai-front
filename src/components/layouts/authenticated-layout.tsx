@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Outlet } from "react-router";
 import { cn } from "../../lib/cn";
-import { Footer } from "../footer";
+import { Footer } from "../Footer";
 import { Header } from "../header";
 import { Sidebar } from "../sidebar";
 
