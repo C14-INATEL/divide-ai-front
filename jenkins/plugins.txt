@@ -1,0 +1,5 @@
+nodejs
+github
+git
+credentials
+workflow-aggregator
