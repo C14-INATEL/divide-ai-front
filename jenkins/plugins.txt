@@ -3,3 +3,5 @@ github
 git
 credentials
 workflow-aggregator
+configuration-as-code
+job-dsl
