@@ -1,0 +1,60 @@
+jenkins:
+  systemMessage: "Jenkins configurado automaticamente via JCasC"
+  numExecutors: 2
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: "admin"
+          password: "${JENKINS_ADMIN_PASSWORD}"
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+  globalNodeProperties:
+    - envVars:
+        env:
+          - key: "JENKINS_URL"
+            value: "https://divide-ai-front-production.up.railway.app"
+
+tool:
+  nodejs:
+    installations:
+      - name: "node-24"
+        properties:
+          - installSource:
+              installers:
+                - nodeJSInstaller:
+                    id: "24.0.0"
+                    npmPackagesRefreshHours: 72
+
+credentials:
+  system:
+    domainCredentials:
+      - credentials:
+          - string:
+              scope: GLOBAL
+              id: "vercel-token"
+              secret: "${VERCEL_TOKEN}"
+              description: "Vercel Deploy Token"
+
+jobs:
+  - script: >
+      pipelineJob('divide-ai-front') {
+        triggers {
+          githubPush()
+        }
+        definition {
+          cpsScm {
+            scm {
+              git {
+                remote {
+                  url('https://github.com/C14-INATEL/divide-ai-front.git')
+                }
+                branch('*/main')
+              }
+            }
+            scriptPath('Jenkinsfile')
+            lightweight(false)
+          }
+        }
+      }
