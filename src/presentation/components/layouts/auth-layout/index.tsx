@@ -1,6 +1,6 @@
 import { Outlet, Link, useLocation } from "react-router";
-import { ThemeSwapper } from "../theme-swapper";
-import { routes } from "../../routes/routes";
+import { ThemeSwapper } from "../../theme-swapper";
+import { routes } from "../../../routes/routes";
 import { Wallet } from "lucide-react";
 
 export function AuthLayout() {
@@ -84,7 +84,7 @@ export function AuthLayout() {
           <ThemeSwapper />
         </div>
 
-        <div className="card w-full max-w-sm mx-auto bg-base-100 shadow-xl border border-base-content/6 overflow-visible">
+        <div className="card w-full max-w-md mx-auto bg-base-100 shadow-xl border border-base-content/6 overflow-visible">
           <div
             className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px"
             style={{
@@ -94,6 +94,7 @@ export function AuthLayout() {
           />
 
           <div className="card-body p-8">
+            <div key={location.pathname} className="animate-auth-route-in">
             <h2 className="card-title text-xl font-semibold tracking-tight mb-1">
               {isLogin ? "Acessar painel" : "Criar nova conta"}
             </h2>
@@ -125,6 +126,7 @@ export function AuthLayout() {
                   <span className="text-primary font-semibold">Entrar</span>
                 </Link>
               )}
+            </div>
             </div>
           </div>
         </div>

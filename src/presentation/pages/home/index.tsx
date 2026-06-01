@@ -1,25 +1,25 @@
 import { useState, useEffect } from "react";
 import { Plus, Users } from "lucide-react";
-import { getGroups } from "../../services/group.service";
-import type { Group } from "../../services/group.service"; 
+import { getGroups } from "../../../data/services/group-service/group.service";
+import type { Group } from "../../../data/services/group-service/group.service";
 
 export function Home() {
   const [groups, setGroups] = useState<Group[]>([]);
 
- useEffect(() => {
+  useEffect(() => {
     getGroups()
-        .then((data) => {
-            if (Array.isArray(data)) {
-                setGroups(data);
-            } else {
-                setGroups([]); 
-            }
-        })
-        .catch((error) => {
-            console.error(error);
-            setGroups([]); 
-        });
-}, []);
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setGroups(data);
+        } else {
+          setGroups([]);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        setGroups([]);
+      });
+  }, []);
 
   return (
     <div className="p-4">

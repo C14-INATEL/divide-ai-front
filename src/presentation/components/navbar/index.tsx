@@ -1,5 +1,5 @@
 import { Bell, Menu } from "lucide-react";
-import { ThemeSwapper } from "./theme-swapper";
+import { ThemeSwapper } from "../theme-swapper";
 
 export function Navbar() {
   return (
@@ -35,7 +35,6 @@ export function Navbar() {
         <button className="btn btn-ghost btn-circle">
           <div className="indicator">
             <Bell size={20} />
-            {/* <span className="badge badge-xs badge-primary indicator-item"></span> */}
           </div>
         </button>
       </div>

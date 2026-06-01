@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Outlet } from "react-router";
-import { cn } from "../../lib/cn";
-import { Footer } from "../footer";
-import { Header } from "../header";
-import { Sidebar } from "../sidebar";
+import { cn } from "../../../../domain/utils/cn/cn";
+import { Footer } from "../../footer";
+import { Header } from "../../header";
+import { Sidebar } from "../../sidebar";
 
 export function AuthenticatedLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

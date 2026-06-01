@@ -3,14 +3,14 @@ import type {
   GroupFinancialSummary,
   ExpenseCategorySummary,
   RecentActivityItem,
-} from "../../types/interfaces/dashboard/dashboard.types";
-import type { ExpenseDetails } from "../../types/interfaces/expenses/expenses.types";
+} from "../../../domain/types/interfaces/dashboard/dashboard.types";
+import type { ExpenseDetails } from "../../../domain/types/interfaces/expenses/expenses.types";
 import type {
   Group,
   GroupDetails,
-} from "../../types/interfaces/groups/groups.types";
-import type { SettlementDetails } from "../../types/interfaces/settlements/settlements.types";
-import type { User } from "../../types/interfaces/users/user.types";
+} from "../../../domain/types/interfaces/groups/groups.types";
+import type { SettlementDetails } from "../../../domain/types/interfaces/settlements/settlements.types";
+import type { User } from "../../../domain/types/interfaces/users/user.types";
 
 export interface ApiResponse<T> {
   data: T;

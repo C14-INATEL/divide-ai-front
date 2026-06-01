@@ -1,9 +1,9 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { Home } from "../home/index";
-import * as groupService from "../../services/group.service";
+import { Home } from ".";
+import * as groupService from "../../../data/services/group-service/group.service";
 
-vi.mock("../../services/group.service", () => ({
+vi.mock("../../../data/services/group-service/group.service", () => ({
   getGroups: vi.fn(),
 }));
 
@@ -49,22 +49,22 @@ describe("Home Component", () => {
   it("deve renderizar estado vazio quando a API retornar um array vazio (Mock)", async () => {
     vi.mocked(groupService.getGroups).mockResolvedValueOnce([]);
     render(<Home />);
-    
+
     expect(screen.getByText("Meus Grupos")).toBeInTheDocument();
-    
+
     await waitFor(() => {
       expect(screen.queryByText("Casamento maio/2027")).not.toBeInTheDocument();
     });
   });
 
   it("deve lidar com erro na API sem travar a interface (Mock)", async () => {
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
     vi.mocked(groupService.getGroups).mockRejectedValueOnce(new Error("Network Error"));
     render(<Home />);
-    
+
     expect(screen.getByText("Divide Ai")).toBeInTheDocument();
-    
+
     await waitFor(() => {
       expect(screen.queryByText("Casamento maio/2027")).not.toBeInTheDocument();
     });
