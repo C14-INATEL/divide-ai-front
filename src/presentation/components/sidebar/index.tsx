@@ -1,13 +1,15 @@
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { LogOut, Wallet, X } from "lucide-react";
-import { cn } from "../lib/cn";
-import { getSidebarNavigation } from "../routes/routes";
+import { cn } from "../../../domain/utils/cn/cn";
+import { getSidebarNavigation } from "../../routes/routes";
+import { clearToken } from "../../../domain/utils/auth/auth";
 
 interface SidebarProps {
   onClose?: () => void;
 }
 
 export function Sidebar({ onClose }: SidebarProps) {
+  const navigate = useNavigate();
   const sections = getSidebarNavigation();
 
   return (
@@ -90,7 +92,10 @@ export function Sidebar({ onClose }: SidebarProps) {
       </nav>
 
       <div className="px-3 pb-2 shrink-0">
-        <button className="flex items-center gap-3 px-3 py-2 rounded-xl text-[13px] font-medium text-base-content/40 hover:bg-error/10 hover:text-error transition-all duration-150 w-full">
+        <button
+          onClick={() => { clearToken(); navigate("/login"); }}
+          className="flex items-center gap-3 px-3 py-2 rounded-xl text-[13px] font-medium text-base-content/40 hover:bg-error/10 hover:text-error transition-all duration-150 w-full"
+        >
           <LogOut size={18} strokeWidth={1.75} />
           <span>Sair</span>
         </button>

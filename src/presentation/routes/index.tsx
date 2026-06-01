@@ -1,10 +1,8 @@
 import { createBrowserRouter } from "react-router";
 import { RootLayout } from "../components/layouts/root";
 import { AuthLayout } from "../components/layouts/auth-layout";
-import { routes } from "./routes";
-import { AuthenticatedGuard } from "./guards/authenticated-guard";
-import { PublicOnlyGuard } from "./guards/public-only-guard";
 import { AuthenticatedLayout } from "../components/layouts/authenticated-layout";
+import { routes } from "./routes";
 import { Home } from "../pages/home";
 import { Groups } from "../pages/groups";
 import { Expenses } from "../pages/expenses";
@@ -26,22 +24,14 @@ export const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       {
-        element: (
-          <PublicOnlyGuard>
-            <AuthLayout />
-          </PublicOnlyGuard>
-        ),
+        element: <AuthLayout />,
         children: [
           { path: routes.LOGIN.path, element: <Login /> },
           { path: routes.REGISTER.path, element: <Register /> },
         ],
       },
       {
-        element: (
-          <AuthenticatedGuard>
-            <AuthenticatedLayout />
-          </AuthenticatedGuard>
-        ),
+        element: <AuthenticatedLayout />,
         children: [
           { path: routes.HOME.path, index: true, element: <Home /> },
           { path: routes.GROUPS.path, element: <Groups /> },

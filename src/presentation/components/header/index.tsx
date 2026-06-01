@@ -8,7 +8,7 @@ import {
   Settings,
   User,
 } from "lucide-react";
-import { ThemeSwapper } from "./theme-swapper";
+import { ThemeSwapper } from "../theme-swapper";
 
 interface HeaderProps {
   onMenuClick?: () => void;
