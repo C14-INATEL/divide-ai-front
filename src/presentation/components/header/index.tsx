@@ -9,12 +9,14 @@ import {
   User,
 } from "lucide-react";
 import { ThemeSwapper } from "../theme-swapper";
+import { useModalStore } from "../../store/modal.store";
 
 interface HeaderProps {
   onMenuClick?: () => void;
 }
 
 export function Header({ onMenuClick }: HeaderProps) {
+  const { openModal } = useModalStore();
   return (
     <header className="bg-base-100 rounded-2xl shadow-sm border border-base-300/60 px-4 sm:px-5 py-3 flex items-center gap-3 shrink-0">
       <button
@@ -42,6 +44,7 @@ export function Header({ onMenuClick }: HeaderProps) {
       <div className="hidden sm:flex items-center gap-2">
         <button
           type="button"
+          onClick={() => openModal("create-group")}
           className="btn btn-sm rounded-xl font-medium text-xs gap-1.5 h-9 border-none bg-transparent text-base-content/70 hover:bg-base-200 hover:text-base-content shadow-none"
         >
           <Plus size={14} />

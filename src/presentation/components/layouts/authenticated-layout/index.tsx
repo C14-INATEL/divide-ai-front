@@ -4,6 +4,7 @@ import { cn } from "../../../../domain/utils/cn/cn";
 import { Footer } from "../../footer";
 import { Header } from "../../header";
 import { Sidebar } from "../../sidebar";
+import { ModalContainer } from "../../modal-container";
 
 export function AuthenticatedLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -41,6 +42,7 @@ export function AuthenticatedLayout() {
           <Footer />
         </div>
       </div>
+      <ModalContainer />
     </div>
   );
 }

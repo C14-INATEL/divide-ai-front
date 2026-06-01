@@ -4,15 +4,15 @@ import { GroupCardSkeleton } from "../../components/group-card/skeleton";
 import { GroupsEmptyState } from "../../components/groups-empty-state";
 import { getGroups } from "../../../data/services/group-service/group.service";
 import { useFetch } from "../../../data/hooks/use-fetch/use-fetch";
+import { useModalStore } from "../../store/modal.store";
 
 const CURRENT_USER_ID = "user-001";
 
 export function Groups() {
-  const { data: groups, isLoading } = useFetch(getGroups);
+  const { data: groups, isLoading, refetch: refetchGroups } = useFetch(getGroups);
+  const { openModal } = useModalStore();
 
-  const handleCreateGroup = () => {
-    // TODO: abrir modal de criação de grupo
-  };
+  const handleCreateGroup = () => openModal("create-group", { onSuccess: refetchGroups });
 
   return (
     <div className="w-full h-full p-5">
@@ -54,6 +54,7 @@ export function Groups() {
           ))}
         </div>
       )}
+
     </div>
   );
 }
