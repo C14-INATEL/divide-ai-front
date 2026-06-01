@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { createUser } from "../../../data/services/user-service/user.service";
 import type { PixKeyType } from "../../../data/services/user-service/user.service";
 import { setToken } from "../../../domain/utils/auth/auth";
+import { useAuthStore } from "../../store/auth.store";
 
 const PIX_KEY_PLACEHOLDERS: Record<PixKeyType, string> = {
   cpf: "000.000.000-00",
@@ -23,6 +24,7 @@ export function Register() {
   const [pixKey, setPixKey] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { setUser } = useAuthStore();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -36,6 +38,7 @@ export function Register() {
     try {
       const response = await createUser({ name, email, password, pix_key: pixKey, pix_key_type: pixKeyType });
       setToken(response.token);
+      setUser(response.token);
       navigate("/");
     } catch {
       setErrorMessage("Erro ao criar conta. Tente novamente.");

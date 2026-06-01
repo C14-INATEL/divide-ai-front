@@ -4,6 +4,7 @@ import { Eye, EyeOff, ArrowRight } from "lucide-react";
 import { login } from "../../../data/services/auth-service/auth.service";
 import { useFetch } from "../../../data/hooks/use-fetch/use-fetch";
 import { setToken } from "../../../domain/utils/auth/auth";
+import { useAuthStore } from "../../store/auth.store";
 
 export function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -12,6 +13,7 @@ export function Login() {
   const emailId = useId();
   const passwordId = useId();
   const navigate = useNavigate();
+  const { setUser } = useAuthStore();
 
   const { error, refetch: submitLogin } = useFetch(
     () => login({ email, password }),
@@ -25,6 +27,7 @@ export function Login() {
     const result = await submitLogin();
     if (result) {
       setToken(result.access_token);
+      setUser(result.access_token);
       navigate("/");
     }
   }
