@@ -9,12 +9,18 @@ import {
   User,
 } from "lucide-react";
 import { ThemeSwapper } from "../theme-swapper";
+import { useAuthStore } from "../../store/auth.store";
+
+function getAvatarUrl(name: string) {
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff&bold=true&size=128`;
+}
 
 interface HeaderProps {
   onMenuClick?: () => void;
 }
 
 export function Header({ onMenuClick }: HeaderProps) {
+  const { user } = useAuthStore();
   return (
     <header className="bg-base-100 rounded-2xl shadow-sm border border-base-300/60 px-4 sm:px-5 py-3 flex items-center gap-3 shrink-0">
       <button
@@ -74,15 +80,15 @@ export function Header({ onMenuClick }: HeaderProps) {
         >
           <div className="avatar">
             <div className="w-8 rounded-full ring-2 ring-base-200">
-              <img src="https://i.pravatar.cc/150?u=lucas" alt="Lucas M." />
+              <img src={user ? getAvatarUrl(user.name) : ""} alt={user?.name ?? ""} />
             </div>
           </div>
           <div className="hidden md:block text-left">
-            <p className="text-xs font-semibold text-base-content leading-tight">
-              Lucas M.
+            <p className="text-xs font-semibold text-base-content leading-tight truncate max-w-[120px]">
+              {user?.name}
             </p>
-            <p className="text-[10px] text-base-content/50 leading-tight">
-              lucas@email.com
+            <p className="text-[10px] text-base-content/50 leading-tight truncate max-w-[120px]">
+              {user?.email}
             </p>
           </div>
         </div>
@@ -92,8 +98,8 @@ export function Header({ onMenuClick }: HeaderProps) {
           className="dropdown-content z-50 menu p-1.5 shadow-xl bg-base-100 rounded-2xl w-52 mt-3 border border-base-300/80"
         >
           <div className="px-3 py-2.5 mb-1">
-            <p className="text-sm font-semibold text-base-content">Lucas M.</p>
-            <p className="text-xs text-base-content/50">lucas@email.com</p>
+            <p className="text-sm font-semibold text-base-content truncate">{user?.name}</p>
+            <p className="text-xs text-base-content/50 truncate">{user?.email}</p>
           </div>
           <div className="h-px bg-base-200 mx-2 mb-1" />
 

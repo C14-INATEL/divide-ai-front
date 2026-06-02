@@ -1,14 +1,39 @@
 import { useId, useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Eye, EyeOff, ArrowRight } from "lucide-react";
+import { login } from "../../../data/services/auth-service/auth.service";
+import { useFetch } from "../../../data/hooks/use-fetch/use-fetch";
+import { setToken } from "../../../domain/utils/auth/auth";
+import { useAuthStore } from "../../store/auth.store";
 
 export function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const emailId = useId();
   const passwordId = useId();
+  const navigate = useNavigate();
+  const { setUser } = useAuthStore();
+
+  const { error, refetch: submitLogin } = useFetch(
+    () => login({ email, password }),
+    { enabled: false },
+  );
+
+  const errorMessage = error ? "Email ou senha inválidos." : null;
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const result = await submitLogin();
+    if (result) {
+      setToken(result.access_token);
+      setUser(result.access_token);
+      navigate("/");
+    }
+  }
 
   return (
-    <form className="space-y-4">
+    <form className="space-y-4" onSubmit={handleSubmit}>
       <fieldset className="fieldset">
         <label htmlFor={emailId} className="fieldset-label text-xs font-semibold uppercase tracking-wider text-base-content/50">
           Email
@@ -18,6 +43,8 @@ export function Login() {
           id={emailId}
           placeholder="seu@email.com"
           required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           className="input input-bordered w-full rounded-xl transition-all duration-300 hover:border-base-content/10 focus:input-primary focus:border-primary/50"
         />
       </fieldset>
@@ -32,6 +59,8 @@ export function Login() {
             id={passwordId}
             placeholder="********"
             required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             className="input input-bordered w-full rounded-xl pr-10 transition-all duration-300 hover:border-base-content/10 focus:input-primary focus:border-primary/50"
           />
           <button
@@ -48,6 +77,11 @@ export function Login() {
           </Link>
         </div>
       </fieldset>
+      {errorMessage && (
+        <p role="alert" className="text-sm text-error">
+          {errorMessage}
+        </p>
+      )}
 
       <button
         type="submit"

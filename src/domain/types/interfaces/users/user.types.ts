@@ -1,5 +1,13 @@
 import type { ApiEntity, ID } from "../common.types";
 
+export interface AuthUser {
+  sub: string;
+  name: string;
+  email: string;
+  exp: number;
+  iat: number;
+}
+
 export interface PixKey {
   type: "CPF" | "EMAIL" | "PHONE" | "RANDOM";
   value: string;

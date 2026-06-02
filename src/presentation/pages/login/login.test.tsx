@@ -3,9 +3,9 @@ import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes } from "react-router";
 import { beforeEach, vi } from "vitest";
 import { Login } from ".";
-import { login } from "../../services/auth.service";
+import { login } from "../../../data/services/auth-service/auth.service";
 
-vi.mock("../../services/auth.service", () => ({
+vi.mock("../../../data/services/auth-service/auth.service", () => ({
   login: vi.fn(),
 }));
 
@@ -29,7 +29,7 @@ beforeEach(() => {
 describe("Login", () => {
   describe("Mock de login", () => {
     test("deve navegar para home quando login retorna sucesso", async () => {
-      loginMock.mockResolvedValueOnce({ token: "token-ok" });
+      loginMock.mockResolvedValueOnce({ access_token: "token-ok", token_type: "bearer" });
       renderLogin();
 
       await userEvent.type(
