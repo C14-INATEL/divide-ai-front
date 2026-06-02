@@ -15,3 +15,10 @@ export async function getGroups(): Promise<Group[]> {
   const { data } = await http.get<Group[]>("/groups");
   return data;
 }
+
+export type CreateGroupInput = { name: string };
+
+export async function createGroup(input: CreateGroupInput): Promise<Group> {
+  const { data } = await http.post<Group>("/groups", input);
+  return data;
+}

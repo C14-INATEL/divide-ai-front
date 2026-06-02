@@ -9,6 +9,7 @@ import {
   User,
 } from "lucide-react";
 import { ThemeSwapper } from "../theme-swapper";
+import { useModalStore } from "../../store/modal.store";
 import { useAuthStore } from "../../store/auth.store";
 
 function getAvatarUrl(name: string) {
@@ -20,6 +21,7 @@ interface HeaderProps {
 }
 
 export function Header({ onMenuClick }: HeaderProps) {
+  const { openModal } = useModalStore();
   const { user } = useAuthStore();
   return (
     <header className="bg-base-100 rounded-2xl shadow-sm border border-base-300/60 px-4 sm:px-5 py-3 flex items-center gap-3 shrink-0">
@@ -48,6 +50,7 @@ export function Header({ onMenuClick }: HeaderProps) {
       <div className="hidden sm:flex items-center gap-2">
         <button
           type="button"
+          onClick={() => openModal("create-group")}
           className="btn btn-sm rounded-xl font-medium text-xs gap-1.5 h-9 border-none bg-transparent text-base-content/70 hover:bg-base-200 hover:text-base-content shadow-none"
         >
           <Plus size={14} />
@@ -80,7 +83,10 @@ export function Header({ onMenuClick }: HeaderProps) {
         >
           <div className="avatar">
             <div className="w-8 rounded-full ring-2 ring-base-200">
-              <img src={user ? getAvatarUrl(user.name) : ""} alt={user?.name ?? ""} />
+              <img
+                src={user ? getAvatarUrl(user.name) : ""}
+                alt={user?.name ?? ""}
+              />
             </div>
           </div>
           <div className="hidden md:block text-left">
@@ -98,8 +104,12 @@ export function Header({ onMenuClick }: HeaderProps) {
           className="dropdown-content z-50 menu p-1.5 shadow-xl bg-base-100 rounded-2xl w-52 mt-3 border border-base-300/80"
         >
           <div className="px-3 py-2.5 mb-1">
-            <p className="text-sm font-semibold text-base-content truncate">{user?.name}</p>
-            <p className="text-xs text-base-content/50 truncate">{user?.email}</p>
+            <p className="text-sm font-semibold text-base-content truncate">
+              {user?.name}
+            </p>
+            <p className="text-xs text-base-content/50 truncate">
+              {user?.email}
+            </p>
           </div>
           <div className="h-px bg-base-200 mx-2 mb-1" />
 

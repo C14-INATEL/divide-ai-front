@@ -4,15 +4,20 @@ import { GroupCardSkeleton } from "../../components/group-card/skeleton";
 import { GroupsEmptyState } from "../../components/groups-empty-state";
 import { getGroups } from "../../../data/services/group-service/group.service";
 import { useFetch } from "../../../data/hooks/use-fetch/use-fetch";
-
-const CURRENT_USER_ID = "user-001";
+import { useModalStore } from "../../store/modal.store";
+import { useAuthStore } from "../../store/auth.store";
 
 export function Groups() {
-  const { data: groups, isLoading } = useFetch(getGroups);
+  const {
+    data: groups,
+    isLoading,
+    refetch: refetchGroups,
+  } = useFetch(getGroups);
+  const { openModal } = useModalStore();
+  const { user } = useAuthStore();
 
-  const handleCreateGroup = () => {
-    // TODO: abrir modal de criação de grupo
-  };
+  const handleCreateGroup = () =>
+    openModal("create-group", { onSuccess: refetchGroups });
 
   return (
     <div className="w-full h-full p-5">
@@ -21,8 +26,7 @@ export function Groups() {
           <h1 className="text-xl font-bold text-base-content">Meus grupos</h1>
           {!isLoading && groups && (
             <p className="text-[13px] text-base-content/50 mt-0.5">
-              {groups.length}{" "}
-              {groups.length === 1 ? "grupo" : "grupos"}
+              {groups.length} {groups.length === 1 ? "grupo" : "grupos"}
             </p>
           )}
         </div>
@@ -49,7 +53,7 @@ export function Groups() {
             <GroupCard
               key={group.id}
               group={group}
-              isOwner={group.creator_id === CURRENT_USER_ID}
+              isOwner={group.creator_id === user?.sub}
             />
           ))}
         </div>
