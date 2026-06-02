@@ -83,7 +83,10 @@ export function Header({ onMenuClick }: HeaderProps) {
         >
           <div className="avatar">
             <div className="w-8 rounded-full ring-2 ring-base-200">
-              <img src={user ? getAvatarUrl(user.name) : ""} alt={user?.name ?? ""} />
+              <img
+                src={user ? getAvatarUrl(user.name) : ""}
+                alt={user?.name ?? ""}
+              />
             </div>
           </div>
           <div className="hidden md:block text-left">
@@ -101,8 +104,12 @@ export function Header({ onMenuClick }: HeaderProps) {
           className="dropdown-content z-50 menu p-1.5 shadow-xl bg-base-100 rounded-2xl w-52 mt-3 border border-base-300/80"
         >
           <div className="px-3 py-2.5 mb-1">
-            <p className="text-sm font-semibold text-base-content truncate">{user?.name}</p>
-            <p className="text-xs text-base-content/50 truncate">{user?.email}</p>
+            <p className="text-sm font-semibold text-base-content truncate">
+              {user?.name}
+            </p>
+            <p className="text-xs text-base-content/50 truncate">
+              {user?.email}
+            </p>
           </div>
           <div className="h-px bg-base-200 mx-2 mb-1" />
 
