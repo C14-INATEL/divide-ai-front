@@ -3,6 +3,8 @@ import { LogOut, Wallet, X } from "lucide-react";
 import { cn } from "../../../domain/utils/cn/cn";
 import { getSidebarNavigation } from "../../routes/routes";
 import { clearToken } from "../../../domain/utils/auth/auth";
+import { useAuthStore } from "../../store/auth.store";
+import { getAvatarUrl } from "../../../domain/utils/avatar/avatar";
 
 interface SidebarProps {
   onClose?: () => void;
@@ -11,6 +13,7 @@ interface SidebarProps {
 export function Sidebar({ onClose }: SidebarProps) {
   const navigate = useNavigate();
   const sections = getSidebarNavigation();
+  const { user } = useAuthStore();
 
   return (
     <aside className="bg-base-100 rounded-2xl h-full w-full flex flex-col shadow-sm border border-base-300/60 overflow-hidden">
@@ -105,15 +108,18 @@ export function Sidebar({ onClose }: SidebarProps) {
         <div className="flex items-center gap-3 p-3 bg-base-200/80 rounded-xl border border-base-300">
           <div className="avatar">
             <div className="w-9 rounded-full ring-2 ring-base-100 shadow-sm">
-              <img src="https://i.pravatar.cc/150?u=lucas" alt="Lucas M." />
+              <img
+                src={user ? getAvatarUrl(user.name) : ""}
+                alt={user?.name ?? ""}
+              />
             </div>
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-[13px] font-semibold text-base-content truncate">
-              Lucas M.
+              {user?.name}
             </p>
             <p className="text-[11px] text-base-content/50 truncate">
-              lucas@email.com
+              {user?.email}
             </p>
           </div>
         </div>

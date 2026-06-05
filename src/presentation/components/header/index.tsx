@@ -11,10 +11,7 @@ import {
 import { ThemeSwapper } from "../theme-swapper";
 import { useModalStore } from "../../store/modal.store";
 import { useAuthStore } from "../../store/auth.store";
-
-function getAvatarUrl(name: string) {
-  return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff&bold=true&size=128`;
-}
+import { getAvatarUrl } from "../../../domain/utils/avatar/avatar";
 
 interface HeaderProps {
   onMenuClick?: () => void;
@@ -90,10 +87,10 @@ export function Header({ onMenuClick }: HeaderProps) {
             </div>
           </div>
           <div className="hidden md:block text-left">
-            <p className="text-xs font-semibold text-base-content leading-tight truncate max-w-[120px]">
+            <p className="text-xs font-semibold text-base-content leading-tight truncate max-w-30">
               {user?.name}
             </p>
-            <p className="text-[10px] text-base-content/50 leading-tight truncate max-w-[120px]">
+            <p className="text-[10px] text-base-content/50 leading-tight truncate max-w-30">
               {user?.email}
             </p>
           </div>
