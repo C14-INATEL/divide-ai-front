@@ -76,7 +76,7 @@ export function GroupsEmptyState({ onCreateGroup }: GroupsEmptyStateProps) {
         <h2 className="text-base font-semibold text-base-content">
           Nenhum grupo por aqui
         </h2>
-        <p className="text-[13px] text-base-content/50 max-w-[260px] leading-relaxed">
+        <p className="text-[13px] text-base-content/50 max-w-65 leading-relaxed">
           Crie seu primeiro grupo e comece a dividir despesas com quem importa.
         </p>
       </div>

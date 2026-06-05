@@ -12,7 +12,7 @@ export function AuthenticatedLayout() {
   return (
     <div className="min-h-screen bg-base-200 p-2 sm:p-3 lg:p-4">
       <div className="flex h-[calc(100vh-1rem)] sm:h-[calc(100vh-1.5rem)] lg:h-[calc(100vh-2rem)] gap-3">
-        <div className="hidden lg:block w-[264px] shrink-0">
+        <div className="hidden lg:block w-66 shrink-0">
           <Sidebar />
         </div>
 
@@ -25,7 +25,7 @@ export function AuthenticatedLayout() {
         />
         <div
           className={cn(
-            "fixed left-0 top-0 h-full w-[264px] z-50 p-2 lg:hidden transition-transform duration-300 ease-out",
+            "fixed left-0 top-0 h-full w-66 z-50 p-2 lg:hidden transition-transform duration-300 ease-out",
             sidebarOpen ? "translate-x-0" : "-translate-x-full",
           )}
         >

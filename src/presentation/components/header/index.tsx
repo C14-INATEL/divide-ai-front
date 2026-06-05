@@ -87,10 +87,10 @@ export function Header({ onMenuClick }: HeaderProps) {
             </div>
           </div>
           <div className="hidden md:block text-left">
-            <p className="text-xs font-semibold text-base-content leading-tight truncate max-w-[120px]">
+            <p className="text-xs font-semibold text-base-content leading-tight truncate max-w-30">
               {user?.name}
             </p>
-            <p className="text-[10px] text-base-content/50 leading-tight truncate max-w-[120px]">
+            <p className="text-[10px] text-base-content/50 leading-tight truncate max-w-30">
               {user?.email}
             </p>
           </div>
