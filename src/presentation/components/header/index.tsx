@@ -11,10 +11,7 @@ import {
 import { ThemeSwapper } from "../theme-swapper";
 import { useModalStore } from "../../store/modal.store";
 import { useAuthStore } from "../../store/auth.store";
-
-function getAvatarUrl(name: string) {
-  return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff&bold=true&size=128`;
-}
+import { getAvatarUrl } from "../../../domain/utils/avatar/avatar";
 
 interface HeaderProps {
   onMenuClick?: () => void;
