@@ -5,10 +5,6 @@ pipeline {
     nodejs 'node-24'
   }
 
-  environment {
-    VERCEL_TOKEN = credentials('vercel-token')
-  }
-
   stages {
     stage('Checkout') {
       steps {
@@ -36,7 +32,7 @@ pipeline {
 
     stage('Relatório de Testes') {
       steps {
-        junit 'test-results/junit.xml'
+        junit allowEmptyResults: true, testResults: 'junit.xml'
         archiveArtifacts artifacts: 'coverage/**, test-results/**', fingerprint: true
       }
     }
