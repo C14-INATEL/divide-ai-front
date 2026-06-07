@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="43" failures="0" errors="0" time="21.3475587">
+    <testsuite name="src/data/hooks/use-fetch/use-fetch.test.ts" timestamp="2026-06-07T04:30:47.880Z" hostname="DESKTOP-MOGJ9N6" tests="9" failures="0" errors="0" skipped="0" time="0.6645247">
+        <testcase classname="src/data/hooks/use-fetch/use-fetch.test.ts" name="use-fetch &gt; should start in loading state and populate data when fetcher resolves" time="0.1128467">
+        </testcase>
+        <testcase classname="src/data/hooks/use-fetch/use-fetch.test.ts" name="use-fetch &gt; should expose the error and stop loading when fetcher rejects" time="0.0721885">
+        </testcase>
+        <testcase classname="src/data/hooks/use-fetch/use-fetch.test.ts" name="use-fetch &gt; should re-run the fetcher and update data when refetch is called" time="0.0624091">
+        </testcase>
+        <testcase classname="src/data/hooks/use-fetch/use-fetch.test.ts" name="use-fetch &gt; should clear previous error on a successful refetch" time="0.0771306">
+        </testcase>
+        <testcase classname="src/data/hooks/use-fetch/use-fetch.test.ts" name="use-fetch &gt; should return to loading state while refetching" time="0.0914148">
+        </testcase>
+        <testcase classname="src/data/hooks/use-fetch/use-fetch.test.ts" name="use-fetch &gt; should re-run the request when deps change" time="0.1534523">
+        </testcase>
+        <testcase classname="src/data/hooks/use-fetch/use-fetch.test.ts" name="use-fetch &gt; should not re-run the request when deps stay the same" time="0.0779905">
+        </testcase>
+        <testcase classname="src/data/hooks/use-fetch/use-fetch.test.ts" name="use-fetch &gt; should not auto-run when enabled is false and only fire on refetch" time="0.0038211">
+        </testcase>
+        <testcase classname="src/data/hooks/use-fetch/use-fetch.test.ts" name="use-fetch &gt; refetch should resolve to undefined when the fetcher rejects" time="0.0039829">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/presentation/components/theme-swapper/theme-swapper.test.tsx" timestamp="2026-06-07T04:30:47.884Z" hostname="DESKTOP-MOGJ9N6" tests="6" failures="0" errors="0" skipped="0" time="1.6321111">
+        <testcase classname="src/presentation/components/theme-swapper/theme-swapper.test.tsx" name="ThemeSwapper &gt; should render the theme control checkbox" time="0.806423">
+        </testcase>
+        <testcase classname="src/presentation/components/theme-swapper/theme-swapper.test.tsx" name="ThemeSwapper &gt; should start unchecked (light theme active by default)" time="0.1276133">
+        </testcase>
+        <testcase classname="src/presentation/components/theme-swapper/theme-swapper.test.tsx" name="ThemeSwapper &gt; should become checked when clicked once (activates dark theme)" time="0.193964">
+        </testcase>
+        <testcase classname="src/presentation/components/theme-swapper/theme-swapper.test.tsx" name="ThemeSwapper &gt; should not render more than one checkbox" time="0.0905567">
+        </testcase>
+        <testcase classname="src/presentation/components/theme-swapper/theme-swapper.test.tsx" name="ThemeSwapper &gt; should not have a value other than &quot;dark&quot;" time="0.0636049">
+        </testcase>
+        <testcase classname="src/presentation/components/theme-swapper/theme-swapper.test.tsx" name="ThemeSwapper &gt; should not remain checked after two clicks (returns to initial state)" time="0.3415443">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/presentation/pages/home/home.test.tsx" timestamp="2026-06-07T04:30:47.887Z" hostname="DESKTOP-MOGJ9N6" tests="6" failures="0" errors="0" skipped="0" time="0.7240004">
+        <testcase classname="src/presentation/pages/home/home.test.tsx" name="Home Component &gt; deve renderizar o título principal do aplicativo" time="0.1443635">
+        </testcase>
+        <testcase classname="src/presentation/pages/home/home.test.tsx" name="Home Component &gt; deve renderizar o botão de &apos;Novo Grupo&apos;" time="0.4688382">
+        </testcase>
+        <testcase classname="src/presentation/pages/home/home.test.tsx" name="Home Component &gt; deve listar corretamente os grupos vindos do mock" time="0.0375757">
+        </testcase>
+        <testcase classname="src/presentation/pages/home/home.test.tsx" name="Home Component &gt; deve aplicar as cores corretas para dívidas e contas quitadas" time="0.0470034">
+        </testcase>
+        <testcase classname="src/presentation/pages/home/home.test.tsx" name="Home Component &gt; deve renderizar estado vazio quando a API retornar um array vazio (Mock)" time="0.0086747">
+        </testcase>
+        <testcase classname="src/presentation/pages/home/home.test.tsx" name="Home Component &gt; deve lidar com erro na API sem travar a interface (Mock)" time="0.0097442">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/presentation/pages/login/login.test.tsx" timestamp="2026-06-07T04:30:47.889Z" hostname="DESKTOP-MOGJ9N6" tests="8" failures="0" errors="0" skipped="0" time="5.0782976">
+        <testcase classname="src/presentation/pages/login/login.test.tsx" name="Login &gt; Mock de login &gt; deve navegar para home quando login retorna sucesso" time="2.018526">
+        </testcase>
+        <testcase classname="src/presentation/pages/login/login.test.tsx" name="Login &gt; Mock de login &gt; deve mostrar erro quando login retorna falha" time="1.1958491">
+        </testcase>
+        <testcase classname="src/presentation/pages/login/login.test.tsx" name="Login &gt; should render email and password inputs" time="0.0159409">
+        </testcase>
+        <testcase classname="src/presentation/pages/login/login.test.tsx" name="Login &gt; should render the submit button with correct text" time="0.2857784">
+        </testcase>
+        <testcase classname="src/presentation/pages/login/login.test.tsx" name="Login &gt; should render the &apos;Esqueceu a senha?&apos; link" time="0.0355685">
+        </testcase>
+        <testcase classname="src/presentation/pages/login/login.test.tsx" name="Login &gt; should start with password field hidden" time="0.0203035">
+        </testcase>
+        <testcase classname="src/presentation/pages/login/login.test.tsx" name="Login &gt; should toggle password visibility when clicking the eye button" time="0.4725451">
+        </testcase>
+        <testcase classname="src/presentation/pages/login/login.test.tsx" name="Login &gt; should call login on form submission" time="1.0232936">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/presentation/pages/register/register.test.tsx" timestamp="2026-06-07T04:30:47.892Z" hostname="DESKTOP-MOGJ9N6" tests="10" failures="0" errors="0" skipped="0" time="13.0585749">
+        <testcase classname="src/presentation/pages/register/register.test.tsx" name="Register &gt; Mock de registro &gt; deve navegar para home quando registro retorna sucesso" time="3.4799914">
+            <system-out>
+[36m&lt;body&gt;[39m
+  [36m&lt;div&gt;[39m
+    [36m&lt;div&gt;[39m
+      [0mHome[0m
+    [36m&lt;/div&gt;[39m
+  [36m&lt;/div&gt;[39m
+[36m&lt;/body&gt;[39m
+
+            </system-out>
+        </testcase>
+        <testcase classname="src/presentation/pages/register/register.test.tsx" name="Register &gt; Mock de registro &gt; deve mostrar erro quando registro retorna falha" time="2.6594552">
+        </testcase>
+        <testcase classname="src/presentation/pages/register/register.test.tsx" name="Register &gt; Mock de registro &gt; deve mostrar erro quando senhas não coincidem, sem chamar o serviço" time="2.8505817">
+        </testcase>
+        <testcase classname="src/presentation/pages/register/register.test.tsx" name="Register &gt; Mock de registro &gt; deve enviar pix_key_type correto ao selecionar tipo E-mail" time="2.7576911">
+        </testcase>
+        <testcase classname="src/presentation/pages/register/register.test.tsx" name="Register &gt; should render all form fields" time="0.1343479">
+        </testcase>
+        <testcase classname="src/presentation/pages/register/register.test.tsx" name="Register &gt; should render the submit button with correct text" time="0.2309852">
+        </testcase>
+        <testcase classname="src/presentation/pages/register/register.test.tsx" name="Register &gt; should start with password fields hidden" time="0.0255174">
+        </testcase>
+        <testcase classname="src/presentation/pages/register/register.test.tsx" name="Register &gt; should toggle password visibility when clicking the eye button" time="0.3503351">
+        </testcase>
+        <testcase classname="src/presentation/pages/register/register.test.tsx" name="Register &gt; should toggle confirm password visibility when clicking the eye button" time="0.3109494">
+        </testcase>
+        <testcase classname="src/presentation/pages/register/register.test.tsx" name="Register &gt; should update pix key placeholder when type changes" time="0.2512421">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/presentation/routes/guards/authenticated-guard.test.tsx" timestamp="2026-06-07T04:30:47.895Z" hostname="DESKTOP-MOGJ9N6" tests="2" failures="0" errors="0" skipped="0" time="0.0726955">
+        <testcase classname="src/presentation/routes/guards/authenticated-guard.test.tsx" name="AuthenticatedGuard &gt; deve renderizar os filhos quando o usuário está autenticado" time="0.0574281">
+        </testcase>
+        <testcase classname="src/presentation/routes/guards/authenticated-guard.test.tsx" name="AuthenticatedGuard &gt; deve redirecionar para /login quando o usuário não está autenticado" time="0.0095281">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/presentation/routes/guards/public-only-guard.test.tsx" timestamp="2026-06-07T04:30:47.897Z" hostname="DESKTOP-MOGJ9N6" tests="2" failures="0" errors="0" skipped="0" time="0.1173545">
+        <testcase classname="src/presentation/routes/guards/public-only-guard.test.tsx" name="PublicOnlyGuard &gt; deve renderizar os filhos quando o usuário não está autenticado" time="0.0935247">
+        </testcase>
+        <testcase classname="src/presentation/routes/guards/public-only-guard.test.tsx" name="PublicOnlyGuard &gt; deve redirecionar para / quando o usuário já está autenticado" time="0.0164912">
+        </testcase>
+    </testsuite>
+</testsuites>

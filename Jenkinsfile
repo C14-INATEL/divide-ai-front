@@ -28,12 +28,16 @@ pipeline {
       }
     }
 
-    stage('Deploy na Vercel') {
+    stage('Testes Unitários') {
       steps {
-        sh '''
-          npm install -g vercel
-          vercel --token $VERCEL_TOKEN --yes --prod
-        '''
+        sh 'npm run test:coverage'
+      }
+    }
+
+    stage('Relatório de Testes') {
+      steps {
+        junit 'test-results/junit.xml'
+        archiveArtifacts artifacts: 'coverage/**, test-results/**', fingerprint: true
       }
     }
   }
