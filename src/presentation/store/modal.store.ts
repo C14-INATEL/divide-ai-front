@@ -2,6 +2,13 @@ import { create } from "zustand";
 
 export type ModalPropsMap = {
   "create-group": { onSuccess?: () => void };
+  "create-debt": {
+    groups?: import("../../data/services/group-service/group.service").Group[];
+    selectedGroupId?: string;
+    currentUserId?: string;
+    currentUserName?: string;
+    onSuccess?: (groupId: string) => void;
+  };
 };
 
 export type ModalName = keyof ModalPropsMap;

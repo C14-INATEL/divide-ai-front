@@ -53,9 +53,13 @@ export function Header({ onMenuClick }: HeaderProps) {
           <Plus size={14} />
           Novo Grupo
         </button>
-        <button className="btn btn-sm btn-primary rounded-xl font-medium text-xs gap-1.5 h-9">
+        <button
+          type="button"
+          onClick={() => openModal("create-debt")}
+          className="btn btn-sm btn-primary rounded-xl font-medium text-xs gap-1.5 h-9"
+        >
           <CreditCard size={14} />
-          Nova Despesa
+          Nova Divida
         </button>
       </div>
 

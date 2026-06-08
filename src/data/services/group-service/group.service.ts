@@ -1,6 +1,14 @@
 import { http } from "../http/http";
 
-export type GroupMember = { id: string };
+export type GroupMember = {
+  id?: string;
+  user_id?: string;
+  user?: {
+    id?: string;
+    name?: string;
+    email?: string;
+  };
+};
 
 export type Group = {
   id: string;

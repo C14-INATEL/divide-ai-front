@@ -84,7 +84,7 @@ export const routes: Record<string, Route> = {
   },
   EXPENSES: {
     path: "/despesas",
-    label: "Despesas",
+    label: "Dividas",
     icon: Receipt,
     isPrivate: true,
     showInSidebar: true,
