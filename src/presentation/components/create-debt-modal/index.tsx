@@ -2,6 +2,9 @@ import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { CalendarDays, CircleDollarSign, Split, Users, X } from "lucide-react";
 import {
   createDebt,
+  updateDebt,
+  type Debt,
+  type DebtParticipant,
   type DebtSplitType,
 } from "../../../data/services/debt-service/debt.service";
 import {
@@ -21,6 +24,7 @@ const EMPTY_GROUPS: Group[] = [];
 
 interface CreateDebtModalProps {
   open: boolean;
+  debt?: Debt;
   groups?: Group[];
   selectedGroupId?: string;
   currentUserId?: string;
@@ -35,10 +39,24 @@ function getDefaultDueDate() {
   return date.toISOString().slice(0, 16);
 }
 
+function toDateTimeLocal(value: string | undefined) {
+  if (!value) return getDefaultDueDate();
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return getDefaultDueDate();
+  return date.toISOString().slice(0, 16);
+}
+
 function parseAmount(value: string) {
-  const normalized = value.replace(/\./g, "").replace(",", ".");
+  const normalized = value.includes(",")
+    ? value.replace(/\./g, "").replace(",", ".")
+    : value;
   const parsed = Number(normalized);
   return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function toInputAmount(value: string | number | undefined) {
+  if (value === undefined || value === null) return "";
+  return String(value);
 }
 
 function getMemberId(member: GroupMember) {
@@ -61,6 +79,7 @@ function getMemberName(
 
 function getMemberOptions(
   group: Group | undefined,
+  participants: DebtParticipant[] | undefined,
   currentUserId?: string,
   currentUserName?: string,
 ): MemberOption[] {
@@ -80,11 +99,28 @@ function getMemberOptions(
     options.unshift({ id: currentUserId, name: currentUserName || "Voce" });
   }
 
+  for (const participant of participants ?? []) {
+    if (!participant.user_id || options.some((member) => member.id === participant.user_id)) {
+      continue;
+    }
+
+    options.push({
+      id: participant.user_id,
+      name:
+        participant.user_id === currentUserId
+          ? currentUserName || "Voce"
+          : participant.user?.name ??
+            participant.user?.email ??
+            `Usuario ${participant.user_id.slice(0, 8)}`,
+    });
+  }
+
   return options;
 }
 
 export function CreateDebtModal({
   open,
+  debt,
   groups = EMPTY_GROUPS,
   selectedGroupId,
   currentUserId,
@@ -102,6 +138,7 @@ export function CreateDebtModal({
   const [splitType, setSplitType] = useState<DebtSplitType>("homogenea");
   const [selectedParticipants, setSelectedParticipants] = useState<string[]>([]);
   const [percentages, setPercentages] = useState<Record<string, string>>({});
+  const isEditMode = !!debt;
   const shouldFetchGroups = open && groups.length === 0;
   const { data: fetchedGroups, isLoading: isLoadingGroups } = useFetch(getGroups, {
     enabled: shouldFetchGroups,
@@ -116,10 +153,11 @@ export function CreateDebtModal({
     () =>
       getMemberOptions(
         selectedGroup,
+        debt?.participants,
         resolvedCurrentUserId,
         resolvedCurrentUserName,
       ),
-    [selectedGroup, resolvedCurrentUserId, resolvedCurrentUserName],
+    [selectedGroup, debt?.participants, resolvedCurrentUserId, resolvedCurrentUserName],
   );
   const percentageTotal = selectedParticipants.reduce(
     (sum, userId) => sum + Number(percentages[userId] || 0),
@@ -138,34 +176,58 @@ export function CreateDebtModal({
     (splitType === "homogenea" || Math.abs(remainingPercentage) < 0.001);
 
   const { isLoading, refetch: submitCreate } = useFetch(
-    () =>
-      createDebt({
-        group_id: groupId,
+    () => {
+      const participants = selectedParticipants.map((userId) => ({
+        user_id: userId,
+        percentage:
+          splitType === "heterogenea"
+            ? Number(percentages[userId] || 0)
+            : Number((100 / selectedParticipants.length).toFixed(2)),
+      }));
+      const input = {
         title: title.trim(),
         description: description.trim() || undefined,
         due_date: new Date(dueDate).toISOString(),
         total_amount: parseAmount(totalAmount),
         split_type: splitType,
-        participants: selectedParticipants.map((userId) => ({
-          user_id: userId,
-          ...(splitType === "heterogenea"
-            ? { percentage: Number(percentages[userId] || 0) }
-            : {}),
-        })),
-      }),
+        participants,
+      };
+
+      if (debt) return updateDebt(debt.id, input);
+
+      return createDebt({
+        group_id: groupId,
+        ...input,
+      });
+    },
     { enabled: false },
   );
 
   useEffect(() => {
     if (open) {
-      setGroupId(selectedGroupId ?? availableGroups[0]?.id ?? "");
+      setGroupId(debt?.group_id ?? selectedGroupId ?? availableGroups[0]?.id ?? "");
+      setTitle(debt?.title ?? "");
+      setDescription(debt?.description ?? "");
+      setDueDate(toDateTimeLocal(debt?.due_date));
+      setTotalAmount(toInputAmount(debt?.total_amount));
+      setSplitType(debt?.split_type ?? "homogenea");
+      setSelectedParticipants(
+        debt?.participants?.map((participant) => participant.user_id).filter(Boolean) ?? [],
+      );
+      setPercentages(
+        debt?.participants?.reduce<Record<string, string>>((acc, participant) => {
+          acc[participant.user_id] = String(participant.percentage ?? "");
+          return acc;
+        }, {}) ?? {},
+      );
       dialogRef.current?.showModal();
     } else {
       dialogRef.current?.close();
     }
-  }, [open, selectedGroupId, availableGroups]);
+  }, [open, debt, selectedGroupId, availableGroups]);
 
   useEffect(() => {
+    if (memberOptions.length === 0) return;
     setSelectedParticipants((current) =>
       current.filter((userId) => memberOptions.some((member) => member.id === userId)),
     );
@@ -192,9 +254,9 @@ export function CreateDebtModal({
 
     const result = await submitCreate();
     if (result) {
-      const createdGroupId = groupId;
+      const changedGroupId = groupId;
       handleClose();
-      onSuccess?.(createdGroupId);
+      onSuccess?.(changedGroupId);
     }
   }
 
@@ -214,7 +276,9 @@ export function CreateDebtModal({
     <dialog ref={dialogRef} className="modal modal-bottom sm:modal-middle" onClose={handleClose}>
       <div className="modal-box max-w-2xl p-0 overflow-visible rounded-2xl">
         <div className="flex items-center justify-between px-6 py-4 border-b border-base-content/8">
-          <h3 className="font-semibold text-base text-base-content">Criar nova divida</h3>
+          <h3 className="font-semibold text-base text-base-content">
+            {isEditMode ? "Editar divida" : "Criar nova divida"}
+          </h3>
           <button
             type="button"
             onClick={handleClose}
@@ -234,7 +298,7 @@ export function CreateDebtModal({
                 value={groupId}
                 onChange={(event) => setGroupId(event.target.value)}
                 className="select select-bordered w-full rounded-xl text-sm h-10 focus:select-primary"
-                disabled={isLoadingGroups}
+                disabled={isLoadingGroups || isEditMode}
                 required
               >
                 {availableGroups.map((group) => (
@@ -447,7 +511,7 @@ export function CreateDebtModal({
               className="btn btn-primary btn-sm rounded-xl gap-1.5"
             >
               {isLoading && <span className="loading loading-spinner loading-xs" />}
-              Criar divida
+              {isEditMode ? "Salvar divida" : "Criar divida"}
             </button>
           </div>
         </form>

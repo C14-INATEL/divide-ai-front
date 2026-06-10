@@ -50,6 +50,8 @@ export type CreateDebtInput = {
   participants: CreateDebtParticipantInput[];
 };
 
+export type UpdateDebtInput = Omit<CreateDebtInput, "group_id">;
+
 export async function getDebts(groupId: string): Promise<Debt[]> {
   const { data } = await http.get<Debt[]>("/debts/", {
     params: { group_id: groupId },
@@ -64,6 +66,14 @@ export async function getDebt(debtId: string): Promise<Debt> {
 
 export async function createDebt(input: CreateDebtInput): Promise<Debt> {
   const { data } = await http.post<Debt>("/debts/", input);
+  return data;
+}
+
+export async function updateDebt(
+  debtId: string,
+  input: UpdateDebtInput,
+): Promise<Debt> {
+  const { data } = await http.patch<Debt>(`/debts/${debtId}`, input);
   return data;
 }
 

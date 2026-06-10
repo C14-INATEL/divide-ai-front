@@ -2,6 +2,7 @@ import {
   CheckCircle2,
   Eye,
   FileUp,
+  Pencil,
   Trash2,
   Users,
   WalletCards,
@@ -16,6 +17,7 @@ interface DebtCardProps {
   currentUserId?: string;
   isCreator: boolean;
   onDelete: (debt: Debt) => void;
+  onEdit: (debt: Debt) => void;
   onUploadProof: (debt: Debt, file: File) => void;
   onConfirm: (debt: Debt, participant: DebtParticipant) => void;
   onViewProof: (debt: Debt, participant: DebtParticipant) => void;
@@ -70,6 +72,7 @@ export function DebtCard({
   currentUserId,
   isCreator,
   onDelete,
+  onEdit,
   onUploadProof,
   onConfirm,
   onViewProof,
@@ -110,15 +113,28 @@ export function DebtCard({
             )}
           </div>
 
-          <button
-            type="button"
-            onClick={() => onDelete(debt)}
-            disabled={isBusy}
-            className="btn btn-ghost btn-xs btn-circle text-base-content/35 hover:text-error"
-            aria-label="Excluir divida"
-          >
-            <Trash2 size={15} />
-          </button>
+          {isCreator && (
+            <div className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() => onEdit(debt)}
+              disabled={isBusy}
+              className="btn btn-ghost btn-xs btn-circle text-base-content/35 hover:text-primary"
+              aria-label="Editar divida"
+            >
+              <Pencil size={15} />
+            </button>
+            <button
+              type="button"
+              onClick={() => onDelete(debt)}
+              disabled={isBusy}
+              className="btn btn-ghost btn-xs btn-circle text-base-content/35 hover:text-error"
+              aria-label="Excluir divida"
+            >
+              <Trash2 size={15} />
+            </button>
+          </div>
+          )}
         </div>
 
         <div className="grid grid-cols-3 gap-2">

@@ -98,6 +98,21 @@ export function Expenses() {
     }
   }
 
+  function handleEdit(debt: Debt) {
+    setFeedback(null);
+    openModal("create-debt", {
+      debt,
+      groups: groups ?? [],
+      selectedGroupId: debt.group_id,
+      currentUserId: user?.sub,
+      currentUserName: user?.name,
+      onSuccess: (groupId) => {
+        setSelectedGroupId(groupId);
+        refetchDebts();
+      },
+    });
+  }
+
   function handleDelete(debt: Debt) {
     runDebtAction(debt.id, async () => {
       await deleteDebt(debt.id);
@@ -230,6 +245,7 @@ export function Expenses() {
               isCreator={debt.creator_id === user?.sub}
               isBusy={busyDebtId === debt.id}
               onDelete={handleDelete}
+              onEdit={handleEdit}
               onUploadProof={handleUploadProof}
               onConfirm={handleConfirm}
               onViewProof={handleViewProof}

@@ -3,6 +3,7 @@ import { create } from "zustand";
 export type ModalPropsMap = {
   "create-group": { onSuccess?: () => void };
   "create-debt": {
+    debt?: import("../../data/services/debt-service/debt.service").Debt;
     groups?: import("../../data/services/group-service/group.service").Group[];
     selectedGroupId?: string;
     currentUserId?: string;
