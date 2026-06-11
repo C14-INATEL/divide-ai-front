@@ -82,6 +82,9 @@ export function DebtCard({
   const confirmedCount = participants.filter(
     (participant) => participant.status === "confirmado",
   ).length;
+  const paidAmount = participants
+    .filter((p) => p.status === "confirmado")
+    .reduce((sum, p) => sum + toNumber(p.amount), 0);
   const dueDate = debt.due_date ? dateFormatter.format(new Date(debt.due_date)) : "-";
 
   return (
@@ -137,7 +140,7 @@ export function DebtCard({
           )}
         </div>
 
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-4 gap-2">
           <div className="rounded-xl bg-base-200/60 px-3 py-2">
             <p className="text-[10px] uppercase font-semibold text-base-content/40">
               Total
@@ -158,6 +161,14 @@ export function DebtCard({
             </p>
             <p className="text-sm font-semibold text-base-content">
               {confirmedCount}/{participants.length}
+            </p>
+          </div>
+          <div className="rounded-xl bg-base-200/60 px-3 py-2">
+            <p className="text-[10px] uppercase font-semibold text-base-content/40">
+              Valor pago
+            </p>
+            <p className="text-sm font-semibold text-base-content">
+              {formatMoney(paidAmount)}
             </p>
           </div>
         </div>
