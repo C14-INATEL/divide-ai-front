@@ -1,24 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import { X, Search, Users } from "lucide-react";
 import { createGroup } from "../../../data/services/group-service/group.service";
+import {
+  searchUsers,
+  type UserSearchResult,
+} from "../../../data/services/user-service/user.service";
 import { useFetch } from "../../../data/hooks/use-fetch/use-fetch";
+import { useDebounce } from "../../../data/hooks/use-debounce/use-debounce";
 
-const MOCK_USERS = [
-  { id: "u1", name: "Ana Silva", email: "ana.silva@email.com" },
-  { id: "u2", name: "Bruno Santos", email: "bruno.santos@email.com" },
-  { id: "u3", name: "Carla Oliveira", email: "carla.oliveira@email.com" },
-  { id: "u4", name: "Daniel Costa", email: "daniel.costa@email.com" },
-  { id: "u5", name: "Fernanda Lima", email: "fernanda.lima@email.com" },
-];
-
-function getAvatarUrl(name: string) {
-  return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff&bold=true&size=128`;
-}
-
-interface SelectedUser {
-  id: string;
-  name: string;
-  email: string;
+function getInitials(name: string): string {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+  return (parts[0].charAt(0) + parts[1].charAt(0)).toUpperCase();
 }
 
 interface CreateGroupModalProps {
@@ -27,47 +20,58 @@ interface CreateGroupModalProps {
   onSuccess?: () => void;
 }
 
-const DELAY_CLASSES = ["", "auth-delay-100", "auth-delay-200", "auth-delay-300", "auth-delay-400"];
+const DELAY_CLASSES = [
+  "",
+  "auth-delay-100",
+  "auth-delay-200",
+  "auth-delay-300",
+  "auth-delay-400",
+];
 
-export function CreateGroupModal({ open, onClose, onSuccess }: CreateGroupModalProps) {
+export function CreateGroupModal({
+  open,
+  onClose,
+  onSuccess,
+}: CreateGroupModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [memberSearch, setMemberSearch] = useState("");
-  const [selectedMembers, setSelectedMembers] = useState<SelectedUser[]>([]);
+  const [selectedMembers, setSelectedMembers] = useState<UserSearchResult[]>(
+    [],
+  );
   const [showDropdown, setShowDropdown] = useState(false);
-  const [isSearching, setIsSearching] = useState(false);
-  const [filteredUsers, setFilteredUsers] = useState<typeof MOCK_USERS>([]);
+
+  const debouncedMemberSearch = useDebounce(memberSearch, 500);
 
   const { isLoading, refetch: submitCreate } = useFetch(
-    () => createGroup({ name }),
+    () =>
+      createGroup({
+        name,
+        description: description.trim() || undefined,
+        added_users: selectedMembers.map((m) => m.id),
+      }),
     { enabled: false },
+  );
+
+  const { data: searchData, isLoading: isLoadingUsers } = useFetch(
+    () => searchUsers(debouncedMemberSearch || undefined),
+    {
+      enabled: showDropdown,
+      deps: [showDropdown, debouncedMemberSearch],
+    },
+  );
+
+  const isSearching = memberSearch !== debouncedMemberSearch || isLoadingUsers;
+
+  const filteredUsers = (searchData ?? []).filter(
+    (u) => !selectedMembers.find((m) => m.id === u.id),
   );
 
   useEffect(() => {
     if (open) dialogRef.current?.showModal();
     else dialogRef.current?.close();
   }, [open]);
-
-  useEffect(() => {
-    if (memberSearch.length < 2) {
-      setFilteredUsers([]);
-      setIsSearching(false);
-      return;
-    }
-    setIsSearching(true);
-    const timer = setTimeout(() => {
-      setFilteredUsers(
-        MOCK_USERS.filter(
-          (u) =>
-            u.email.toLowerCase().includes(memberSearch.toLowerCase()) &&
-            !selectedMembers.find((m) => m.id === u.id),
-        ),
-      );
-      setIsSearching(false);
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [memberSearch, selectedMembers]);
 
   function handleClose() {
     setName("");
@@ -86,7 +90,7 @@ export function CreateGroupModal({ open, onClose, onSuccess }: CreateGroupModalP
     }
   }
 
-  function addMember(user: SelectedUser) {
+  function addMember(user: UserSearchResult) {
     setSelectedMembers((prev) => [...prev, user]);
     setMemberSearch("");
     setShowDropdown(false);
@@ -97,11 +101,17 @@ export function CreateGroupModal({ open, onClose, onSuccess }: CreateGroupModalP
   }
 
   return (
-    <dialog ref={dialogRef} className="modal modal-bottom sm:modal-middle" onClose={handleClose}>
+    <dialog
+      ref={dialogRef}
+      className="modal modal-bottom sm:modal-middle"
+      onClose={handleClose}
+    >
       <div className="modal-box max-w-md p-0 overflow-visible rounded-2xl">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-base-content/8">
-          <h3 className="font-semibold text-base text-base-content">Criar novo grupo</h3>
+          <h3 className="font-semibold text-base text-base-content">
+            Criar novo grupo
+          </h3>
           <button
             type="button"
             onClick={handleClose}
@@ -116,11 +126,9 @@ export function CreateGroupModal({ open, onClose, onSuccess }: CreateGroupModalP
           <div className="flex items-center gap-4">
             <div className="shrink-0">
               {name.trim() ? (
-                <img
-                  src={getAvatarUrl(name.trim())}
-                  alt=""
-                  className="w-14 h-14 rounded-2xl object-cover ring-2 ring-base-content/10"
-                />
+                <div className="w-14 h-14 rounded-2xl bg-primary/10 text-primary font-bold text-xl flex items-center justify-center shrink-0 select-none">
+                  {getInitials(name)}
+                </div>
               ) : (
                 <div className="w-14 h-14 rounded-2xl bg-base-300 flex items-center justify-center text-base-content/20">
                   <Users size={22} />
@@ -158,7 +166,9 @@ export function CreateGroupModal({ open, onClose, onSuccess }: CreateGroupModalP
               />
               <span
                 className={`absolute bottom-2.5 right-3 text-[11px] tabular-nums pointer-events-none transition-colors ${
-                  description.length >= 230 ? "text-warning" : "text-base-content/30"
+                  description.length >= 230
+                    ? "text-warning"
+                    : "text-base-content/30"
                 }`}
               >
                 {description.length}/250
@@ -174,8 +184,8 @@ export function CreateGroupModal({ open, onClose, onSuccess }: CreateGroupModalP
             <div className="relative">
               <div className="relative">
                 <input
-                  type="email"
-                  placeholder="Buscar por e-mail..."
+                  type="text"
+                  placeholder="Buscar por nome..."
                   value={memberSearch}
                   onChange={(e) => {
                     setMemberSearch(e.target.value);
@@ -195,8 +205,8 @@ export function CreateGroupModal({ open, onClose, onSuccess }: CreateGroupModalP
                 )}
               </div>
 
-              {showDropdown && memberSearch.length >= 2 && !isSearching && (
-                <div className="animate-auth-route-in absolute top-full mt-1 w-full bg-base-100 border border-base-content/10 rounded-xl shadow-lg z-50 overflow-hidden">
+              {showDropdown && !isSearching && (
+                <div className="animate-auth-route-in absolute top-full mt-1 w-full bg-base-100 border border-base-content/10 rounded-xl shadow-lg z-50 overflow-y-auto max-h-48">
                   {filteredUsers.length > 0 ? (
                     filteredUsers.map((user, index) => (
                       <button
@@ -205,16 +215,16 @@ export function CreateGroupModal({ open, onClose, onSuccess }: CreateGroupModalP
                         onMouseDown={() => addMember(user)}
                         className={`animate-auth-fade-up ${DELAY_CLASSES[Math.min(index, DELAY_CLASSES.length - 1)]} w-full flex items-center gap-3 px-4 py-2.5 hover:bg-base-200 transition-colors text-left`}
                       >
-                        <img
-                          src={`https://i.pravatar.cc/32?u=${user.id}`}
-                          alt=""
-                          className="w-7 h-7 rounded-full object-cover shrink-0"
-                        />
+                        <div className="w-7 h-7 rounded-full bg-primary/10 text-primary font-bold text-[10px] flex items-center justify-center shrink-0 select-none">
+                          {getInitials(user.name)}
+                        </div>
                         <div className="min-w-0">
                           <p className="text-[13px] font-medium text-base-content truncate">
                             {user.name}
                           </p>
-                          <p className="text-[11px] text-base-content/50 truncate">{user.email}</p>
+                          <p className="text-[11px] text-base-content/50 truncate">
+                            {user.email}
+                          </p>
                         </div>
                       </button>
                     ))
@@ -262,7 +272,9 @@ export function CreateGroupModal({ open, onClose, onSuccess }: CreateGroupModalP
               disabled={!name.trim() || isLoading}
               className="btn btn-primary btn-sm rounded-xl gap-1.5"
             >
-              {isLoading && <span className="loading loading-spinner loading-xs" />}
+              {isLoading && (
+                <span className="loading loading-spinner loading-xs" />
+              )}
               Criar grupo
             </button>
           </div>
