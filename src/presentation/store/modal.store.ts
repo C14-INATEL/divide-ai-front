@@ -10,6 +10,8 @@ export type ModalPropsMap = {
     currentUserName?: string;
     onSuccess?: (groupId: string) => void;
   };
+  "edit-group": { groupId: string; name: string; description?: string; onSuccess?: () => void };
+  "add-member": { groupId: string; onSuccess?: () => void };
 };
 
 export type ModalName = keyof ModalPropsMap;

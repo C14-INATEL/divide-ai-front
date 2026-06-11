@@ -1,5 +1,7 @@
 import { CreateGroupModal } from "../create-group-modal";
 import { CreateDebtModal } from "../create-debt-modal";
+import { EditGroupModal } from "../edit-group-modal";
+import { AddMemberModal } from "../add-member-modal";
 import { useModalStore, type ModalName, type ModalPropsMap } from "../../store/modal.store";
 
 type ModalBaseProps = { open: boolean; onClose: () => void };
@@ -15,6 +17,8 @@ type AnyModalComponent = React.ComponentType<
 const MODALS: ModalRegistry = {
   "create-group": CreateGroupModal,
   "create-debt": CreateDebtModal,
+  "edit-group": EditGroupModal,
+  "add-member": AddMemberModal,
 };
 
 export function ModalContainer() {
