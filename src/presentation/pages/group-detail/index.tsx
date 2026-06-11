@@ -9,11 +9,11 @@ import {
   removeGroupMember,
   deleteGroup,
 } from "../../../data/services/group-service/group.service";
-import type { Debt } from "../../../data/services/debt-service/debt.service";
 import { MemberRow } from "./components/member-row";
 import { DebtCard } from "./components/debt-card";
 import { GroupDetailSkeleton } from "./components/group-detail-skeleton";
 import { DeleteGroupDialog } from "./components/delete-group-dialog";
+import { getDebts } from "../../../data/services/debt-service/debt.service";
 
 function getInitials(name: string): string {
   const parts = name.trim().split(/\s+/);
@@ -43,6 +43,10 @@ export function GroupDetail() {
     isLoading: isLoadingGroup,
     refetch: refetchGroup,
   } = useFetch(() => getGroup(id!), { enabled: !!id, deps: [id] });
+  
+  const {
+    data: debts,
+  } = useFetch(() => getDebts(id!), { enabled: !!id, deps: [id] });
 
   if (isLoadingGroup) return <GroupDetailSkeleton />;
   if (!group) {
@@ -57,51 +61,17 @@ export function GroupDetail() {
   const isOwner = group.is_owner;
   const allDebtsSettled = true;
 
-  const mockDebts: Debt[] = [
-    {
-      id: "mock-1",
-      group_id: group.id,
-      creator_id: "other-user",
-      title: "Jantar no restaurante",
-      total_amount: "120.00",
-      split_type: "homogenea",
-      status: "pendente",
-      created_at: "2026-06-10T18:00:00.000Z",
-      participants: [{ user_id: userId, confirmed: false }],
-    },
-    {
-      id: "mock-2",
-      group_id: group.id,
-      creator_id: userId,
-      title: "Uber para o aeroporto",
-      total_amount: "45.50",
-      split_type: "homogenea",
-      status: "pago",
-      created_at: "2026-06-09T14:00:00.000Z",
-      participants: [{ user_id: "other-user", confirmed: false }],
-    },
-    {
-      id: "mock-3",
-      group_id: group.id,
-      creator_id: "other-user",
-      title: "Ingresso para o show",
-      total_amount: "200.00",
-      split_type: "homogenea",
-      status: "confirmado",
-      created_at: "2026-06-08T20:00:00.000Z",
-      participants: [{ user_id: userId, confirmed: true }],
-    },
-  ];
+  const debtList = debts ?? [];
 
   async function handleRemoveMember(memberId: string) {
-    await removeGroupMember(group.id, memberId);
+    await removeGroupMember(group!.id, memberId);
     await refetchGroup();
   }
 
   async function handleDeleteGroup() {
     setIsDeletingGroup(true);
     try {
-      await deleteGroup(group.id);
+      await deleteGroup(group!.id);
       navigate("/grupos");
     } finally {
       setIsDeletingGroup(false);
@@ -144,7 +114,7 @@ export function GroupDetail() {
                 </span>
                 <span className="flex items-center gap-1 text-[12px] text-base-content/50">
                   <Receipt size={12} />
-                  {mockDebts.length} {mockDebts.length === 1 ? "dívida" : "dívidas"}
+                  {debtList.length} {debtList.length === 1 ? "dívida" : "dívidas"}
                 </span>
                 <span className="flex items-center gap-1 text-[12px] text-base-content/50">
                   <Calendar size={12} />
@@ -226,10 +196,10 @@ export function GroupDetail() {
 
         <div className="bg-base-100 border border-base-content/10 rounded-2xl p-5 flex flex-col">
           <h2 className="font-semibold text-[13px] text-base-content/60 uppercase tracking-wider mb-4">
-            Dívidas · {mockDebts.length}
+            Dívidas · {debtList.length}
           </h2>
           <div className="flex flex-col gap-2.5">
-            {mockDebts.map((debt) => (
+            {debtList.map((debt) => (
               <DebtCard key={debt.id} debt={debt} currentUserId={userId} />
             ))}
           </div>
