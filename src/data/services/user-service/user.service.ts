@@ -18,3 +18,16 @@ export async function createUser(input: CreateUserInput): Promise<CreateUserResp
   const { data } = await http.post<CreateUserResponse>("/users", input);
   return data;
 }
+
+export type UserSearchResult = {
+  id: string;
+  name: string;
+  email: string;
+};
+
+export async function searchUsers(name?: string): Promise<UserSearchResult[]> {
+  const { data } = await http.get<UserSearchResult[]>("/users/", {
+    params: name ? { name } : undefined,
+  });
+  return data;
+}
