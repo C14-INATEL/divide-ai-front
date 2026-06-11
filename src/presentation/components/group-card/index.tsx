@@ -10,7 +10,10 @@ interface GroupCardProps {
 }
 
 export function GroupCard({ group, isOwner = false }: GroupCardProps) {
-  const initial = group.name.charAt(0).toUpperCase();
+  const parts = group.name.trim().split(/\s+/);
+  const initials = parts.length === 1
+    ? parts[0].charAt(0).toUpperCase()
+    : (parts[0].charAt(0) + parts[1].charAt(0)).toUpperCase();
   const memberCount = group.members.length;
   const visibleMembers = group.members.slice(0, MAX_VISIBLE_AVATARS);
   const overflow = memberCount - MAX_VISIBLE_AVATARS;
@@ -24,7 +27,7 @@ export function GroupCard({ group, isOwner = false }: GroupCardProps) {
     <div className="bg-base-100 border border-base-content/10 rounded-2xl p-5 flex flex-col gap-4 shadow-sm hover:border-base-content/20 hover:shadow-md transition-all duration-200 group/card">
       <div className="flex items-start gap-3">
         <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary font-bold text-base flex items-center justify-center shrink-0 select-none">
-          {initial}
+          {initials}
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 min-w-0">
@@ -43,15 +46,21 @@ export function GroupCard({ group, isOwner = false }: GroupCardProps) {
           ) : (
             <div className="flex items-center gap-2 mt-1.5">
               <div className="flex items-center">
-                {visibleMembers.map((member, i) => (
-                  <img
-                    key={member.id}
-                    src={`https://i.pravatar.cc/40?u=${member.id}`}
-                    alt=""
-                    className="w-6 h-6 rounded-full object-cover ring-2 ring-base-100"
-                    style={{ marginLeft: i === 0 ? 0 : "-6px" }}
-                  />
-                ))}
+                {visibleMembers.map((member, i) => {
+                  const nameParts = member.user.name.trim().split(/\s+/);
+                  const initials = nameParts.length === 1
+                    ? nameParts[0].charAt(0).toUpperCase()
+                    : (nameParts[0].charAt(0) + nameParts[1].charAt(0)).toUpperCase();
+                  return (
+                    <div
+                      key={member.user_id}
+                      className="w-6 h-6 rounded-full bg-primary/10 text-primary font-bold text-[8px] flex items-center justify-center ring-2 ring-base-100 shrink-0 select-none"
+                      style={{ marginLeft: i === 0 ? 0 : "-6px" }}
+                    >
+                      {initials}
+                    </div>
+                  );
+                })}
                 {overflow > 0 && (
                   <span
                     className="w-6 h-6 rounded-full bg-base-300 text-base-content/60 text-[10px] font-semibold flex items-center justify-center ring-2 ring-base-100"

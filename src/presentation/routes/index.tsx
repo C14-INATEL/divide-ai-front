@@ -7,6 +7,7 @@ import { PublicOnlyGuard } from "./guards/public-only-guard";
 import { AuthenticatedLayout } from "../components/layouts/authenticated-layout";
 import { Home } from "../pages/home";
 import { Groups } from "../pages/groups";
+import { GroupDetail } from "../pages/group-detail";
 import { Expenses } from "../pages/expenses";
 import { Settlements } from "../pages/settlements";
 import { Participants } from "../pages/participants";
@@ -45,6 +46,7 @@ export const router = createBrowserRouter([
         children: [
           { path: routes.HOME.path, index: true, element: <Home /> },
           { path: routes.GROUPS.path, element: <Groups /> },
+          { path: routes.GROUP_DETAILS.path, element: <GroupDetail /> },
           { path: routes.EXPENSES.path, element: <Expenses /> },
           { path: routes.SETTLEMENTS.path, element: <Settlements /> },
           { path: routes.PARTICIPANTS.path, element: <Participants /> },
