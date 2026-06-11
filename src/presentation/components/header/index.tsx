@@ -1,10 +1,8 @@
 import {
-  Bell,
   CreditCard,
   LogOut,
   Menu,
   Plus,
-  Search,
   Settings,
   User,
 } from "lucide-react";
