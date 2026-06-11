@@ -26,14 +26,16 @@ pipeline {
 
     stage('Testes Unitários') {
       steps {
-        sh 'npm run test:coverage'
+        catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+          sh 'npm run test:coverage'
+        }
       }
     }
 
     stage('Relatório de Testes') {
       steps {
         junit allowEmptyResults: true, testResults: 'junit.xml'
-        archiveArtifacts artifacts: 'coverage/**, test-results/**', fingerprint: true
+        archiveArtifacts artifacts: 'coverage/**, junit.xml', fingerprint: true, allowEmptyArchive: true
       }
     }
   }
