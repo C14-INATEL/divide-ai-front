@@ -2,16 +2,23 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { Home } from ".";
 import * as groupService from "../../../data/services/group-service/group.service";
+import type { Group } from "../../../data/services/group-service/group.service";
 
 vi.mock("../../../data/services/group-service/group.service", () => ({
   getGroups: vi.fn(),
 }));
 
 describe("Home Component", () => {
-  const mockGroups = [
-    { id: 1, name: "Casamento maio/2027", value: 1500.0 },
-    { id: 2, name: "Churrasco na casa do Pizzoni", value: 45.5 },
-    { id: 3, name: "Presente para o Juliano", value: 0 },
+  const mockGroups: Group[] = [
+    { id: "1", name: "Casamento maio/2027", creator_id: "user_1",
+      created_at: "2026-05-01T12:00:00.000Z", updated_at: "2026-05-01T12:00:00.000Z",
+      members: [{ id: "m1" }, { id: "m2" }] },
+    { id: "2", name: "Churrasco na casa do Pizzoni", creator_id: "user_1",
+      created_at: "2026-05-02T12:00:00.000Z", updated_at: "2026-05-02T12:00:00.000Z",
+      members: [{ id: "m3" }] },
+    { id: "3", name: "Presente para o Juliano", creator_id: "user_2",
+      created_at: "2026-05-03T12:00:00.000Z", updated_at: "2026-05-03T12:00:00.000Z",
+      members: [] },
   ];
 
   beforeEach(() => {
@@ -35,23 +42,18 @@ describe("Home Component", () => {
     expect(screen.getByText("Presente para o Juliano")).toBeInTheDocument();
   });
 
-  it("deve aplicar as cores corretas para dívidas e contas quitadas", async () => {
+  it("deve exibir a contagem de membros de cada grupo", async () => {
     render(<Home />);
     await screen.findByText("Casamento maio/2027");
-
-    const debtTexts = screen.getAllByText(/Você deve: R\$/i);
-    expect(debtTexts[0]).toHaveClass("text-error");
-
-    const settledText = screen.getByText("Tudo quite!");
-    expect(settledText).toHaveClass("text-success");
+    expect(screen.getByText("2 membros")).toBeInTheDocument();
+    expect(screen.getByText("1 membro")).toBeInTheDocument();
+    expect(screen.getByText("0 membros")).toBeInTheDocument();
   });
 
   it("deve renderizar estado vazio quando a API retornar um array vazio (Mock)", async () => {
     vi.mocked(groupService.getGroups).mockResolvedValueOnce([]);
     render(<Home />);
-
     expect(screen.getByText("Meus Grupos")).toBeInTheDocument();
-
     await waitFor(() => {
       expect(screen.queryByText("Casamento maio/2027")).not.toBeInTheDocument();
     });
@@ -59,16 +61,12 @@ describe("Home Component", () => {
 
   it("deve lidar com erro na API sem travar a interface (Mock)", async () => {
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-
     vi.mocked(groupService.getGroups).mockRejectedValueOnce(new Error("Network Error"));
     render(<Home />);
-
     expect(screen.getByText("Divide Ai")).toBeInTheDocument();
-
     await waitFor(() => {
       expect(screen.queryByText("Casamento maio/2027")).not.toBeInTheDocument();
     });
-
     consoleSpy.mockRestore();
   });
 });
