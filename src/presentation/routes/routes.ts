@@ -99,7 +99,7 @@ export const routes: Record<string, Route> = {
     showInSidebar: true,
     sidebarSection: "principal",
     sidebarOrder: 3,
-    badge: 3,
+    // badge: 3,
   },
   PARTICIPANTS: {
     path: "/participantes",
@@ -145,7 +145,7 @@ export const routes: Record<string, Route> = {
     showInSidebar: true,
     sidebarSection: "organizacao",
     sidebarOrder: 3,
-    badge: 5,
+    // badge: 5,
   },
   SETTINGS: {
     path: "/configuracoes",
