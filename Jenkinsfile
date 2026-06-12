@@ -5,6 +5,10 @@ pipeline {
     nodejs 'node-24'
   }
 
+  environment {
+    VERCEL_TOKEN = credentials('vercel-token')
+  }
+
   stages {
     stage('Checkout') {
       steps {
