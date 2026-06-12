@@ -1,4 +1,3 @@
-import { vi } from "vitest";
 import { getToken, setToken, clearToken, isAuthenticated, decodeToken } from "./auth";
 
 const TOKEN_KEY = "auth_token";

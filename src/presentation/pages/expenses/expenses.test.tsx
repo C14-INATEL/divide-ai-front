@@ -5,10 +5,7 @@ import { Expenses } from ".";
 import { getGroups } from "../../../data/services/group-service/group.service";
 import {
   getDebts,
-  deleteDebt,
-  confirmDebtPayment,
-  uploadDebtProof,
-  getDebtProof,
+  deleteDebt
 } from "../../../data/services/debt-service/debt.service";
 import { useModalStore } from "../../store/modal.store";
 import { useAuthStore } from "../../store/auth.store";

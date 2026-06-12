@@ -6,7 +6,8 @@ describe("cn", () => {
   });
 
   it("ignora valores falsy (false, undefined, null)", () => {
-    expect(cn("base", false && "skip", undefined, null as never, "end")).toBe("base end");
+    const condition = false;
+    expect(cn("base", condition && "skip", undefined, null as never, "end")).toBe("base end");
   });
 
   it("resolve conflitos Tailwind mantendo a última declaração", () => {

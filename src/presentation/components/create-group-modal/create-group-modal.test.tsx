@@ -3,7 +3,6 @@ import userEvent from "@testing-library/user-event";
 import { vi } from "vitest";
 import { CreateGroupModal } from ".";
 import { createGroup, updateGroup } from "../../../data/services/group-service/group.service";
-import { searchUsers } from "../../../data/services/user-service/user.service";
 
 vi.mock("../../../data/services/group-service/group.service", () => ({
   createGroup: vi.fn(),
