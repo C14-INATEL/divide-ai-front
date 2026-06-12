@@ -45,6 +45,7 @@ pipeline {
     stage('Relatório de Testes') {
       steps {
         junit allowEmptyResults: true, testResults: 'junit.xml'
+        archiveArtifacts artifacts: 'junit.xml', allowEmptyArchive: true
         recordCoverage(
           tools: [[parser: 'COBERTURA', pattern: 'coverage/cobertura-coverage.xml']],
           sourceCodeRetention: 'EVERY_BUILD'
