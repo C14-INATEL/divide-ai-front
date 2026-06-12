@@ -3,7 +3,6 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { Home } from ".";
 import * as groupService from "../../../data/services/group-service/group.service";
 import type { Group } from "../../../data/services/group-service/group.service";
-import type { Group } from "../../../data/services/group-service/group.service";
 
 vi.mock("../../../data/services/group-service/group.service", () => ({
   getGroups: vi.fn(),
@@ -50,12 +49,8 @@ describe("Home Component", () => {
   });
 
   it("deve exibir a contagem de membros de cada grupo", async () => {
-  it("deve exibir a contagem de membros de cada grupo", async () => {
     render(<Home />);
     await screen.findByText("Casamento maio/2027");
-    expect(screen.getByText("2 membros")).toBeInTheDocument();
-    expect(screen.getByText("1 membro")).toBeInTheDocument();
-    expect(screen.getByText("0 membros")).toBeInTheDocument();
     expect(screen.getByText("2 membros")).toBeInTheDocument();
     expect(screen.getByText("1 membro")).toBeInTheDocument();
     expect(screen.getByText("0 membros")).toBeInTheDocument();
