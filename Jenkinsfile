@@ -45,7 +45,7 @@ pipeline {
     stage('Relatório de Testes') {
       steps {
         junit allowEmptyResults: true, testResults: 'junit.xml'
-        archiveArtifacts artifacts: 'coverage/**, junit.xml', fingerprint: true, allowEmptyArchive: true
+        archiveArtifacts artifacts: 'junit.xml, coverage/index.html', allowEmptyArchive: true
       }
     }
 
