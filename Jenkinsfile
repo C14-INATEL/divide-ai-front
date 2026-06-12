@@ -51,8 +51,10 @@ pipeline {
 
     stage('Deploy na vercel') {
       steps {
-        junit allowEmptyResults: true, testResults: 'junit.xml'
-        archiveArtifacts artifacts: 'coverage/**, junit.xml', fingerprint: true, allowEmptyArchive: true
+        sh '''
+          npm install -g vercel
+          vercel --token $VERCEL_TOKEN --yes --prod
+        '''
       }
     }
   }
