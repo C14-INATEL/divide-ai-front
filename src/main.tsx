@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router";
-import { router } from "./routes/index.tsx";
+import { router } from "./presentation/routes/index.tsx";
 
 import "./index.css";
 
