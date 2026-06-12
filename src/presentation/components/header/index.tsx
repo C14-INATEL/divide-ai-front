@@ -1,10 +1,8 @@
 import {
-  Bell,
   CreditCard,
   LogOut,
   Menu,
   Plus,
-  Search,
   Settings,
   User,
 } from "lucide-react";
@@ -30,7 +28,7 @@ export function Header({ onMenuClick }: HeaderProps) {
         <Menu size={20} />
       </button>
 
-      <div className="relative flex-1 max-w-sm">
+      {/* <div className="relative flex-1 max-w-sm">
         <Search
           size={15}
           className="absolute left-3 top-1/2 -translate-y-1/2 text-base-content/40"
@@ -40,7 +38,7 @@ export function Header({ onMenuClick }: HeaderProps) {
           placeholder="Buscar grupos, despesas..."
           className="input input-sm w-full pl-9 pr-14 bg-base-200/80 border-base-300/80 rounded-xl text-[13px] placeholder:text-base-content/40 focus:bg-base-100 focus:border-primary/40 focus:outline-none transition-colors h-9"
         />
-      </div>
+      </div> */}
 
       <div className="flex-1" />
 
@@ -66,7 +64,7 @@ export function Header({ onMenuClick }: HeaderProps) {
       <div className="w-px h-6 bg-base-300/80 hidden sm:block" />
 
       <ThemeSwapper />
-      <div className="indicator">
+      {/* <div className="indicator">
         <span className="indicator-item badge badge-xs badge-error right-1 top-1" />
         <button
           className="btn btn-sm btn-circle border-none bg-transparent text-base-content/50 hover:bg-base-200 hover:text-base-content/70"
@@ -74,7 +72,7 @@ export function Header({ onMenuClick }: HeaderProps) {
         >
           <Bell size={19} />
         </button>
-      </div>
+      </div> */}
 
       <div className="dropdown dropdown-end">
         <div
