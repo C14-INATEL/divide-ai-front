@@ -3,20 +3,27 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { Home } from ".";
 import * as groupService from "../../../data/services/group-service/group.service";
 import type { Group } from "../../../data/services/group-service/group.service";
+import type { Group } from "../../../data/services/group-service/group.service";
 
 vi.mock("../../../data/services/group-service/group.service", () => ({
   getGroups: vi.fn(),
 }));
 
 describe("Home Component", () => {
+  const mockMember = (id: string) => ({
+    user_id: id,
+    joined_at: "2026-01-01T00:00:00.000Z",
+    user: { id, name: `User ${id}`, email: `${id}@test.com` },
+  });
+
   const mockGroups: Group[] = [
-    { id: "1", name: "Casamento maio/2027", creator_id: "user_1",
+    { id: "1", name: "Casamento maio/2027", creator_id: "user_1", is_owner: true,
       created_at: "2026-05-01T12:00:00.000Z", updated_at: "2026-05-01T12:00:00.000Z",
-      members: [{ id: "m1" }, { id: "m2" }] },
-    { id: "2", name: "Churrasco na casa do Pizzoni", creator_id: "user_1",
+      members: [mockMember("m1"), mockMember("m2")] },
+    { id: "2", name: "Churrasco na casa do Pizzoni", creator_id: "user_1", is_owner: true,
       created_at: "2026-05-02T12:00:00.000Z", updated_at: "2026-05-02T12:00:00.000Z",
-      members: [{ id: "m3" }] },
-    { id: "3", name: "Presente para o Juliano", creator_id: "user_2",
+      members: [mockMember("m3")] },
+    { id: "3", name: "Presente para o Juliano", creator_id: "user_2", is_owner: false,
       created_at: "2026-05-03T12:00:00.000Z", updated_at: "2026-05-03T12:00:00.000Z",
       members: [] },
   ];
@@ -43,8 +50,12 @@ describe("Home Component", () => {
   });
 
   it("deve exibir a contagem de membros de cada grupo", async () => {
+  it("deve exibir a contagem de membros de cada grupo", async () => {
     render(<Home />);
     await screen.findByText("Casamento maio/2027");
+    expect(screen.getByText("2 membros")).toBeInTheDocument();
+    expect(screen.getByText("1 membro")).toBeInTheDocument();
+    expect(screen.getByText("0 membros")).toBeInTheDocument();
     expect(screen.getByText("2 membros")).toBeInTheDocument();
     expect(screen.getByText("1 membro")).toBeInTheDocument();
     expect(screen.getByText("0 membros")).toBeInTheDocument();

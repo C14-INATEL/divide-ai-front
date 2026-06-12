@@ -18,6 +18,12 @@ pipeline {
       }
     }
 
+    stage('Verificar Linter') {
+      steps {
+        sh 'npm run lint'
+      }
+    }
+
     stage('Build') {
       steps {
         sh 'npm run build'
@@ -33,6 +39,17 @@ pipeline {
     }
 
     stage('Relatório de Testes') {
+      steps {
+        junit allowEmptyResults: true, testResults: 'junit.xml'
+        archiveArtifacts artifacts: 'junit.xml', allowEmptyArchive: true
+        recordCoverage(
+          tools: [[parser: 'COBERTURA', pattern: 'coverage/cobertura-coverage.xml']],
+          sourceCodeRetention: 'EVERY_BUILD'
+        )
+      }
+    }
+
+    stage('Deploy na vercel') {
       steps {
         junit allowEmptyResults: true, testResults: 'junit.xml'
         archiveArtifacts artifacts: 'coverage/**, junit.xml', fingerprint: true, allowEmptyArchive: true
