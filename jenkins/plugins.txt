@@ -5,3 +5,5 @@ credentials
 workflow-aggregator
 configuration-as-code
 job-dsl
+blueocean
+htmlpublisher
