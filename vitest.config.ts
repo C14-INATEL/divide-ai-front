@@ -11,5 +11,9 @@ export default defineConfig({
     outputFile: {
       junit: "junit.xml",
     },
+    coverage: {
+      reporter: ["text", "cobertura"],
+      reportsDirectory: "coverage",
+    },
   },
 });
