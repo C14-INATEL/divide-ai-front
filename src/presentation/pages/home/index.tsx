@@ -8,13 +8,7 @@ export function Home() {
 
   useEffect(() => {
     getGroups()
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setGroups(data);
-        } else {
-          setGroups([]);
-        }
-      })
+      .then((data) => setGroups(Array.isArray(data) ? data : []))
       .catch((error) => {
         console.error(error);
         setGroups([]);
@@ -50,21 +44,15 @@ export function Home() {
                   <Users size={20} className="text-primary" />
                   {group.name}
                 </h2>
-                <p
-                  className={`mt-2 font-medium ${
-                    group.value > 0 ? "text-error" : "text-success"
-                  }`}
-                >
-                  {group.value > 0
-                    ? `Você deve: R$ ${group.value.toFixed(2)}`
-                    : "Tudo quite!"}
+                <p className="mt-2 font-medium text-base-content/60">
+                  {group.members.length === 1
+                    ? "1 membro"
+                    : `${group.members.length} membros`}
                 </p>
 
-                <div className="card-actions justify-end mt-4">
-                  <button className="btn btn-outline btn-sm">
-                    Ver Detalhes
-                  </button>
-                </div>
+                <p className="mt-2 font-medium text-gray-500">
+                  Visualizar detalhes
+                </p>
               </div>
             </div>
           ))}
