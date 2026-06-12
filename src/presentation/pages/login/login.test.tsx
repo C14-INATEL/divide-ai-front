@@ -104,7 +104,7 @@ describe("Login", () => {
   });
 
   test("should call login on form submission", async () => {
-    loginMock.mockResolvedValueOnce({ token: "submit-ok" });
+    loginMock.mockResolvedValueOnce({ access_token: "submit-ok", token_type: "bearer" });
     renderLogin();
     const emailInput = screen.getByPlaceholderText("seu@email.com");
     const passwordInput = screen.getByPlaceholderText("********");

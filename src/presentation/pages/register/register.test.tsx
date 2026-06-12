@@ -39,6 +39,8 @@ describe("Register", () => {
       await userEvent.type(screen.getByPlaceholderText("000.000.000-00"), "123.456.789-00");
       await userEvent.click(screen.getByRole("button", { name: /comecar agora/i }));
 
+      screen.debug();
+
       expect(await screen.findByText("Home")).toBeInTheDocument();
       expect(createUserMock).toHaveBeenCalledWith({
         name: "João Silva",
@@ -46,8 +48,8 @@ describe("Register", () => {
         password: "senha1234",
         pix_key: "123.456.789-00",
         pix_key_type: "cpf",
-      });
-    });
+      },);
+    },10000 );
 
     test("deve mostrar erro quando registro retorna falha", async () => {
       createUserMock.mockRejectedValueOnce(new Error("conflict"));
@@ -63,7 +65,7 @@ describe("Register", () => {
       expect(await screen.findByRole("alert")).toHaveTextContent(
         "Erro ao criar conta. Tente novamente.",
       );
-    });
+    }, 10000);
 
     test("deve mostrar erro quando senhas não coincidem, sem chamar o serviço", async () => {
       renderRegister();

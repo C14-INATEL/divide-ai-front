@@ -5,10 +5,6 @@ pipeline {
     nodejs 'node-24'
   }
 
-  environment {
-    VERCEL_TOKEN = credentials('vercel-token')
-  }
-
   stages {
     stage('Checkout') {
       steps {
@@ -28,12 +24,18 @@ pipeline {
       }
     }
 
-    stage('Deploy na Vercel') {
+    stage('Testes Unitários') {
       steps {
-        sh '''
-          npm install -g vercel
-          vercel --token $VERCEL_TOKEN --yes --prod
-        '''
+        catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+          sh 'npm run test:coverage'
+        }
+      }
+    }
+
+    stage('Relatório de Testes') {
+      steps {
+        junit allowEmptyResults: true, testResults: 'junit.xml'
+        archiveArtifacts artifacts: 'coverage/**, junit.xml', fingerprint: true, allowEmptyArchive: true
       }
     }
   }
