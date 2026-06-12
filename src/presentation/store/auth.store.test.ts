@@ -1,4 +1,3 @@
-import { vi } from "vitest";
 import { useAuthStore } from "./auth.store";
 
 function buildJwt(payload: object): string {
