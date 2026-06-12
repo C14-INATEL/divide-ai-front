@@ -9,14 +9,20 @@ vi.mock("../../../data/services/group-service/group.service", () => ({
 }));
 
 describe("Home Component", () => {
+  const mockMember = (id: string) => ({
+    user_id: id,
+    joined_at: "2026-01-01T00:00:00.000Z",
+    user: { id, name: `User ${id}`, email: `${id}@test.com` },
+  });
+
   const mockGroups: Group[] = [
-    { id: "1", name: "Casamento maio/2027", creator_id: "user_1",
+    { id: "1", name: "Casamento maio/2027", creator_id: "user_1", is_owner: true,
       created_at: "2026-05-01T12:00:00.000Z", updated_at: "2026-05-01T12:00:00.000Z",
-      members: [{ id: "m1" }, { id: "m2" }] },
-    { id: "2", name: "Churrasco na casa do Pizzoni", creator_id: "user_1",
+      members: [mockMember("m1"), mockMember("m2")] },
+    { id: "2", name: "Churrasco na casa do Pizzoni", creator_id: "user_1", is_owner: true,
       created_at: "2026-05-02T12:00:00.000Z", updated_at: "2026-05-02T12:00:00.000Z",
-      members: [{ id: "m3" }] },
-    { id: "3", name: "Presente para o Juliano", creator_id: "user_2",
+      members: [mockMember("m3")] },
+    { id: "3", name: "Presente para o Juliano", creator_id: "user_2", is_owner: false,
       created_at: "2026-05-03T12:00:00.000Z", updated_at: "2026-05-03T12:00:00.000Z",
       members: [] },
   ];

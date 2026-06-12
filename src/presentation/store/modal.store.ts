@@ -26,6 +26,6 @@ interface ModalStore {
 export const useModalStore = create<ModalStore>((set) => ({
   activeModal: null,
   modalProps: null,
-  openModal: (name, props = {}) => set({ activeModal: name, modalProps: props }),
+  openModal: (name, props) => set({ activeModal: name, modalProps: (props ?? null) as ModalPropsMap[ModalName] | null }),
   closeModal: () => set({ activeModal: null, modalProps: null }),
 }));

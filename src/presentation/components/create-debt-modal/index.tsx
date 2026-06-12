@@ -60,7 +60,7 @@ function toInputAmount(value: string | number | undefined) {
 }
 
 function getMemberId(member: GroupMember) {
-  return member.id ?? member.user_id ?? member.user?.id ?? "";
+  return member.user_id ?? member.user?.id ?? "";
 }
 
 function getMemberName(
