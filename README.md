@@ -184,7 +184,36 @@ VITE_API_URL=http://localhost:8000
 ---
 
 ## Metodologia de desenvolvimento
-...
+
+### Papéis:  
+- Henrique – Back-end (Dev, QA e DevOps) e Scrum Master 
+- Davi – Back-end (Dev e QA) 
+- João - Back-end (Tech-lead, Dev e QA)  
+- Tiago – Front-end (Dev e QA), Scrum Master 
+- Juliano – Front end (Dev, Tech Lead, QA e DevOps) 
+- Leonardo – Front end (Dev e QA) 
+
+O grupo adotou uma abordagem ágil híbrida, utilizando conceitos de Scrum e Kanban. O gerenciamento das atividades foi realizado através do Jira, onde foram registradas histórias de usuário, tarefas e o acompanhamento do progresso do projeto. 
+
+O Jira foi utilizado por por possuir tanto o método de Scrum quanto o Kanban, facilitando para mover uma tarefa pela esteira de produção, definir histórias de usuário, quebrar uma tarefa em subtasks menores, realizar reuniões com certa frequência, e o grupo já possuía uma certa familiaridade devido à experiência profissional individual de cada um. 
+
+As sprints foram definidas de acordo com as entregas previstas no lab da disciplina, com duração média de duas semanas. A exceção foi a sprint final, que durou mais de um mês e concentrou a implementação das funcionalidades restantes, integração do sistema, correções e documentação. 
+
+Uma tarefa era considerada concluída quando a funcionalidade estivesse implementada e integrada ao projeto, e nas etapas finais constantemente era rodado o pipe de CI/CD para garantir que tudo estava nos conformes. Sessões semanais de code review e alinhamento eram feitas pra definir etapas novas e o que precisava ser feito, especialmente no último mês de desenvolvimento. 
+
+Como métricas, foram registrados 66 work items no Jira, sendo a maioria concluída (Done). Além disso, a análise de lead time indicou uma redução gradual do tempo médio de conclusão das tarefas ao longo do desenvolvimento, demonstrando maior familiaridade da equipe com o projeto e suas tecnologias, bem como uma prioridade para finalizar o que precisava ser feito no projeto. 
+
+---
+
+## Dinâmica de Desenvolvimento 
+
+As tarefas foram distribuídas entre os integrantes de acordo com as necessidades de cada sprint. As decisões técnicas eram discutidas em grupo e registradas através das tarefas e histórias de usuário cadastradas no Jira. 
+
+O desenvolvimento foi realizado utilizando GitHub para versionamento e integração das funcionalidades desenvolvidas pelos membros da equipe. 
+
+Durante o projeto ocorreram alguns ajustes de prioridades e redistribuição de atividades, principalmente na sprint final, que concentrou boa parte do desenvolvimento e refinamento do sistema. 
+
+Como lição aprendida, a equipe percebeu a importância de utilizar ferramentas de gerenciamento de projetos de forma consistente desde o início. Embora o Jira tenha sido criado já no início do lab, seu uso tornou-se mais efetivo quando passou a ser um critério obrigatório da disciplina. Ainda assim, para ganhar tempo a comunicação costumava também ocorrer de forma extraoficial e nem sempre o Jira foi usado para toda e qualquer task. Todavia, a ferramenta contribuiu para a organização das tarefas, definição das histórias de usuário e acompanhamento do progresso do projeto, mostrando-se útil para o planejamento e execução das atividades, e em futuros projetos é importante que seja bem utilizado desde o começo.
 
 ---
 
