@@ -17,16 +17,30 @@ import { GroupCardSkeleton } from "../../components/group-card/skeleton";
 import { useAuthStore } from "../../store/auth.store";
 import { useModalStore } from "../../store/modal.store";
 
-function getErrorMessage(error: unknown) {
+function getErrorMessage(error: unknown): string {
   if (error instanceof AxiosError) {
-    const detail = error.response?.data?.detail;
-    if (typeof detail === "string") return detail;
-    if (Array.isArray(detail) && detail[0]?.msg) return detail[0].msg;
+    const data = error.response?.data;
+
+    if (typeof data?.error?.message === "string") {
+      return data.error.message;
+    }
+
+    if (typeof data?.detail === "string") {
+      return data.detail;
+    }
+
+    if (Array.isArray(data?.detail) && data.detail[0]?.msg) {
+      return data.detail[0].msg;
+    }
+
     return error.message;
   }
 
-  if (error instanceof Error) return error.message;
-  return "Nao foi possivel concluir a acao.";
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  return "Não foi possível concluir a ação.";
 }
 
 function openProof(proof: string) {
