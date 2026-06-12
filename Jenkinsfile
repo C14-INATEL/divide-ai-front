@@ -18,6 +18,12 @@ pipeline {
       }
     }
 
+    stage('Verificar Linter') {
+      steps {
+        sh 'npm run lint'
+      }
+    }
+
     stage('Build') {
       steps {
         sh 'npm run build'
@@ -36,6 +42,15 @@ pipeline {
       steps {
         junit allowEmptyResults: true, testResults: 'junit.xml'
         archiveArtifacts artifacts: 'coverage/**, junit.xml', fingerprint: true, allowEmptyArchive: true
+      }
+    }
+
+    stage('Deploy na vercel') {
+      steps {
+        sh '''
+          npm install -g vercel
+          vercel --token $VERCEL_TOKEN --yes --prod
+        '''
       }
     }
   }
