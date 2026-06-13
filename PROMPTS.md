@@ -169,6 +169,87 @@ A IA auxiliou na validação da arquitetura adotada pelo projeto e forneceu reco
 - Facilidade para evolução e manutenção futura do sistema;
 - Maior consistência na implementação de novas features.
 
+
+## Utilização 06 - Testes Unitários e Adições no Pipeline Jenkins
+
+**Responsável:** Leonardo Ferreira
+
+**Ferramenta:** Claude
+
+### Objetivo
+
+Adicionar jobs de testes e relatórios no Jenkins, configurar o salvamento de artefatos (Vitest coverage v8 e JUnit), e corrigir quebras no pipeline causadas por tipagens TypeScript antigas e falta de recursos no Node.js do CI.
+
+### Prompt
+
+> "Me ajuda a adicionar no Jenkins um job de testes, um job de relatório de testes e salvar os artefatos.", "O build está quebrando com esses erros de TypeScript, me ajuda a corrigir." e "Os testes de login e register passam na minha máquina mas falham no Jenkins com erro de localStorage."
+
+### Resultado Obtido
+
+Resultado satisfatório com ajustes manuais.
+
+O pipeline foi configurado com stages de testes resilientes (usando `catchError` para publicar o relatório mesmo com falha em testes unitários). A IA também identificou incompatibilidades de versão e sugeriu a implementação de um polyfill de `localStorage` para destravar os testes no servidor, além de ajudar no alinhamento das tipagens na tela Home.
+
+### Impacto no Projeto
+
+- Garantia de qualidade contínua com relatórios automatizados no CI;
+- Estabilização da esteira de testes que antes falhava por diferenças de ambiente;
+- Refatoração de dívidas técnicas de tipagem no componente Home.
+
+---
+
+## Utilização 07 - Configuração de Banco de Dados Local com Docker
+
+**Responsável:** Leonardo Ferreira
+
+**Ferramenta:** Gemini
+
+### Objetivo
+
+Subir um ambiente local e isolado do PostgreSQL utilizando Docker para permitir a execução das migrations do backend e solucionar erros de conexão recusada.
+
+### Prompt
+
+> "docker run --name divide-ai-db -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -e POSTGRES_DB=divide_ai -p 5432:5432 -d postgres:15 explica essa linha de código para mim pf" e dúvidas sobre o erro `Connection refused (0x0000274D)`.
+
+### Resultado Obtido
+
+Resultado satisfatório.
+
+A IA destrinchou os comandos de containerização e auxiliou no ajuste correto das credenciais e string de conexão no arquivo `.env` do backend, o que permitiu rodar as migrations do Alembic sem erros no Windows.
+
+### Impacto no Projeto
+
+- Configuração ágil do ambiente de desenvolvimento local;
+- Destravamento das rotinas de banco de dados e backend na máquina de desenvolvimento sem necessidade de instalações pesadas.
+
+---
+
+## Utilização 08 - Debugging de Integração (Front-end e Back-end)
+
+**Responsável:** Leonardo Ferreira
+
+**Ferramenta:** Gemini
+
+### Objetivo
+
+Diagnosticar e resolver falhas de comunicação entre a API e o Front-end durante a renderização da tela Home, diferenciando bloqueios de rede de erros de autenticação.
+
+### Prompt
+
+> "coloquei o token no group service e rodei o front, mas as telas tão quebradas n aparece o grupo."
+
+### Resultado Obtido
+
+Resultado muito satisfatório.
+
+A IA forneceu um roteiro prático de investigação utilizando as abas Network e Console do navegador para mapear problemas comuns, ajudando a identificar se a falha se tratava de um bloqueio de CORS vindo da API, um erro `401 Unauthorized` por token inválido ou um simples retorno vazio (`[]`) do banco.
+
+### Impacto no Projeto
+
+- Autonomia e agilidade na resolução de bugs de comunicação de APIs;
+- Estabilização da renderização dinâmica e consumo de dados reais pela interface da tela Home.
+
 # Considerações Finais
 
 A utilização de Inteligência Artificial teve papel de apoio ao desenvolvimento do projeto, contribuindo para acelerar atividades de implementação, design, testes e arquitetura.
